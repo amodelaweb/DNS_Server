@@ -8,10 +8,33 @@ void DNS::DNS_Resolver::init(const std::string& filename){
   this->masterFile= file.leerArchivo(filename);
 }
 
+std::string DNS::DNS_Resolver::find(std::string domain){
+  std::map<std::string, std::string>::iterator it=this->masterFile.find(domain);
+  if(it!=this->masterFile.end()){
+    return it->second;
+  }
+  else{
+    bool x=true;
+    for(int i=0;i<4;i++){
+      if(i==3){
+        if(domain[i]!='.'){
+          x=false;
+        }
+      }
+      else{
+        if(domain[i]!='w'){
+          x=false;
+        }
+      }
+    }
+
+  }
+}
+
 void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   std::string qName = query.getQName();
   std::string ipAddress = "";//convert(qName);
-  std::string domainName = this->masterFile.find(ipAddress)->second;
+  /*std::string domainName = this->masterFile.find(ipAddress)->second;
 
   query.putQdCount(1);
   query.putAnCount(1);
@@ -30,6 +53,9 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
       query.headerRCode(DNS_Query::Code::Ok);
       query.putRdLength(domainName.size()+2); // + initial label length & null label
   }
+      query.setRCode(DNS_Query::Code::Ok);
+      query.setRdLength(domainName.size()+2); // + initial label length & null label
+  }*/
 }
 
 #endif
