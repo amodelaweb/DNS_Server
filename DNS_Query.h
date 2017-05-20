@@ -14,7 +14,7 @@
 
 namespace DNS{
 
-class Query{
+class DNS_Query{
 
   public:
     enum Code { Ok=0, FormatError, ServerFailure, NameError,
