@@ -25,20 +25,57 @@ class DNS_Query{
     enum Code { Ok=0, FormatError, ServerFailure, NameError,
                 NotImplemented, Refused };
 
-    void decodeQuery(const char* buffer, int size) throw();
-    void decode_hdr(const char* buffer) throw ();
+    void decodeQ(const char* buffer, int size) throw();
+    void decodeheader(const char* buffer) throw ();
 
-    int codeRespose(char* buffer) throw();
-    void code_hdr(char* buffer) throw ();
+    int resposeCode(char* buffer) throw();
+    void codeheader(char* buffer) throw ();
 
-    int get16bits(const char*& buffer) throw();
-    void put16bits(char*& buffer, unsigned int value) throw ();
-    void put32bits(char*& buffer, unsigned long value) throw ();
+    int get16bitEncode(const char*& buffer) throw();
+    void put16bit(char*& buffer, unsigned int value) throw ();
+    void put32bit(char*& buffer, unsigned long value) throw ();
 
-    const std::string& getQName() const throw () { return m_qName; }
-    const unsigned int getQType() const throw () { return m_qType; }
-    const unsigned int getQClass() const throw () { return m_qClass; }
+    const std::string& obtainQName() const throw () { return queryName; }
+    const unsigned int obtainQType() const throw () { return queryType; }
+    const unsigned int obtainQClass() const throw () { return queryClass; }
 
+<<<<<<< HEAD
+    void putRCode(Code code) throw() { headerRcode = code; }
+    void putName(const std::string& value) throw() { principalName = value; }
+    void putType(const unsigned int value) throw() { principalType = value; }
+    void putClass(const unsigned int value) throw() { principalClass = value; }
+    void putTtl(const unsigned int value) throw() { principalTtl = value; }
+    void putRdLength(const unsigned int value) throw() { principalrdLength = value; }
+    void putRdata(const std::string& value) throw() { principalrData = value; }
+
+  private:
+    std::string queryName;
+    unsigned int queryType;
+    unsigned int queryClass;
+    void decodeQueryName(const char*& buffer) throw();
+
+    std::string principalName;
+    unsigned int principalType;
+    unsigned int principalClass;
+    unsigned long principalTtl;
+    unsigned int principalrdLength;
+    std::string principalrData;
+    void codedomain(char*& buffer, const std::string& domain) throw();
+
+    unsigned int headerid;
+    unsigned int headerQr;
+    unsigned int headerOpCode;
+    unsigned int headerAa;
+    unsigned int headerTc;
+    unsigned int headerRd;
+    unsigned int headerRa;
+    unsigned int headerRcode;
+
+    unsigned int headerQdCount;
+    unsigned int headerAnCount;
+    unsigned int headerNsCount;
+    unsigned int headerArCount;
+=======
     void setRCode(Code code) throw() { this->m_rcode = code; }
     void setRdLength(const unsigned int value) throw() { this->m_rdLength = value; }
     void setRdata(const std::string& value) throw() { this->m_rdata = value; }
@@ -79,6 +116,7 @@ class DNS_Query{
     unsigned int m_anCount;
     unsigned int m_nsCount;
     unsigned int m_arCount;
+>>>>>>> 7f122eea83b3afe3b6a86f2051f5e2eecd8dda95
 
   };
 }

@@ -30,13 +30,6 @@ void DNS::Server::init(int port) throw (DNSException) {
     DNSException e(error1);
     throw (e);
   }
-  sa.sa_handler = sigchld_handler; // reap all dead processes
-sigemptyset(&sa.sa_mask);
-sa.sa_flags = SA_RESTART;
-if (sigaction(SIGCHLD, &sa, NULL) == -1) {
-    perror("sigaction");
-    exit(1);
-}
 
   std::cout << "\nListening in port: "<<port<<"."<<std::endl;
 }
@@ -45,13 +38,18 @@ void DNS::Server::run() throw(){
   std::cout << "Server is waiting for connections....." <<std:: endl;
   struct sockaddr_in clientAddress;
   socklen_t addr_len = sizeof (struct sockaddr_in);
+  struct sockaddr_storage addr;
+  char ipstr[INET_ADDRSTRLEN];
   char buffer[BUFFER_SIZE];
+    printf("yo soy IP address %s\n",  inet_ntop(AF_INET, (void*)&this->s_address.sin_family ,ipstr, sizeof ipstr));
   while(true){
     int number_bytes =   0;
     number_bytes = recvfrom(this->s_sockfd , buffer , BUFFER_SIZE , 0 , (struct sockaddr*) &clientAddress , &addr_len);
 
-    sendto(s_sockfd, buffer, number_bytes, 0, (struct sockaddr *) &clientAddress,
-           addr_len);
+
+    printf("recv()'d %d bytes of data in buf\n", number_bytes);
+    printf("from IP address %s\n",  inet_ntop(AF_INET, (void*)&clientAddress.sin_addr ,ipstr, sizeof ipstr));
+
   }
 }
 #endif

@@ -3,7 +3,6 @@
 
 #include "readMasterFile.h"
 #include "DNS_Query.h"
-#include <iostream>
 
 namespace DNS{
 /*
