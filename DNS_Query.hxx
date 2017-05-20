@@ -20,8 +20,7 @@ void DNS::DNS_Query::decodeQueryName(const char*& buffer) throw() {
             this->queryName.append(1, c);
         }
         length = *buffer++;
-        if (length != 0)
-        queryName.append(1,'.');
+        if (length != 0) queryName.append(1,'.');
     }
 }
 
@@ -59,25 +58,26 @@ int DNS::DNS_Query::resposeCode(char* buffer) throw() {
     buffer += HDR_OFFSET;
 
     this->codedomain(buffer, principalName);
-    this->putin16bit(buffer, principalType);
-    this->putin16bit(buffer, principalClass);
+    this->put16bit(buffer, principalType);
+    this->put16bit(buffer, principalClass);
 
     this->codedomain(buffer, principalName);
-    this->putin16bit(buffer, principalType);
-    this->putin16bit(buffer, principalClass);
-    this->putin32bit(buffer, principalTtl);
-    this->putin16bit(buffer, principalrdLength);
+    this->put16bit(buffer, principalType);
+    this->put16bit(buffer, principalClass);
+    this->put32bit(buffer, principalTtl);
+    this->put16bit(buffer, principalrdLength);
     this->codedomain(buffer, principalrData);
-    this->code_domain(buffer, m_qName);
-    this->putin16bits(buffer, q_Type);
-    this->putin16bits(buffer, m_qClass);
+    this->codedomain(buffer, principalName);
+    this->put16bit(buffer, principalType);
+    this->put16bit(buffer, principalClass);
 
-    this->code_domain(buffer, m_qName);
-    this->putin16bits(buffer, q_Type);
-    this->putin16bits(buffer, m_qClass);
-    this->putin32bits(buffer, m_ttl);
-    this->putin16bits(buffer, m_rdLength);
-    this->code_domain(buffer, m_rdata);
+    // Code Answer section
+    this->codedomain(buffer, principalName);
+    this->put16bit(buffer, principalType);
+    this->put16bit(buffer, principalClass);
+    this->put32bit(buffer, principalTtl);
+    this->put16bit(buffer, principalrdLength);
+    this->codedomain(buffer, principalrData);
 
     int size = buffer - bufferBegin;
 
@@ -86,24 +86,24 @@ int DNS::DNS_Query::resposeCode(char* buffer) throw() {
 
 void DNS::DNS_Query::codeheader(char* buffer) throw () {
 
-    this->putin16bit(buffer, headerid);
+    this->put16bit(buffer, headerid);
 
     int fields = (headerQr << 15);
     fields += (headerOpCode << 14);
-
+    //...
     fields += headerRcode;
-    this->putin16bit(buffer, fields);
+    this->put16bit(buffer, fields);
 
-    this->putin16bit(buffer, headerQdCount);
-    this->putin16bit(buffer, headerAnCount);
-    this->putin16bit(buffer, headerNsCount);
-    this->putin16bit(buffer, headerArCount);
+    this->put16bit(buffer, headerQdCount);
+    this->put16bit(buffer, headerAnCount);
+    this->put16bit(buffer, headerNsCount);
+    this->put16bit(buffer, headerArCount);
 }
 
-void DNS::DNS_Query::putin16bit(char*& buffer, unsigned int value) throw () {
+void DNS::DNS_Query::put16bit(char*& buffer, unsigned int value) throw () {
 
-    buffer[0] = (value & MASK_16) >> 8;
-    buffer[1] = value & MASK_16_2;
+    buffer[0] = (value & 0xFF00) >> 8;
+    buffer[1] = value & 0xFF;
     buffer += 2;
 }
 
@@ -130,15 +130,13 @@ void DNS::DNS_Query::codedomain(char*& buffer, const std::string& domain) throw(
     *buffer++ = 0;
 }
 
-void DNS::DNS_Query::putin32bit(char*& buffer, unsigned long value) throw () {
+void DNS::DNS_Query::put32bit(char*& buffer, unsigned long value) throw () {
 
-    buffer[0] = (value & MASK_32) >> 24;
-    buffer[1] = (value & MASK_32_2) >> 16;
-    buffer[2] = (value & MASK_32_3) >> 16;
-    buffer[3] = (value & MASK_32_4) >> 16;
+    buffer[0] = (value & 0xFF000000) >> 24;
+    buffer[1] = (value & 0xFF0000) >> 16;
+    buffer[2] = (value & 0xFF00) >> 16;
+    buffer[3] = (value & 0xFF) >> 16;
     buffer += 4;
 }
-unsigned int DNS::DNS_Query::getQType(){
-    return this->q_Type ;
-}
+
 #endif
