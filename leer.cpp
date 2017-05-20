@@ -13,7 +13,11 @@ vector<string> quitarCaracteres(string line){
         s="";
       }
     }else{
-      s=s+line[i];
+      if(line[i]!='#'){
+        s=s+line[i];
+      }else{
+        break;
+      }
     }
     if(i==line.size()-1){
       v.push_back(s);
@@ -30,6 +34,11 @@ void leerArchivo(ifstream &myfile){
       if(line[i]=='#'){
         pasar=true;
         break;
+      }else{
+        if(line[i]!=' '){
+          //cout<<"->"<<line[i]<<endl;
+          break;
+        }
       }
     }
     if(pasar){
