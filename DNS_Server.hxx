@@ -14,9 +14,10 @@ void DNS::Server::init(int port) throw (DNSException) {
     std::string error1 ("Could not open socket : ");
     error1 += std::strerror(errno);
     DNSException e(error1);
+    error1 += "\n";
     throw (e);
   }
-  
+
   this->s_address.sin_family = AF_INET ;
   this->s_address.sin_addr.s_addr = INADDR_ANY ;
   this->s_address.sin_port = htons(port);
@@ -25,23 +26,32 @@ void DNS::Server::init(int port) throw (DNSException) {
   if(sbind != 0){
     std::string error1 ("Could not bind the port: ");
     error1 += std::strerror(errno);
+    error1 += "\n";
     DNSException e(error1);
     throw (e);
   }
+  sa.sa_handler = sigchld_handler; // reap all dead processes
+sigemptyset(&sa.sa_mask);
+sa.sa_flags = SA_RESTART;
+if (sigaction(SIGCHLD, &sa, NULL) == -1) {
+    perror("sigaction");
+    exit(1);
+}
+
   std::cout << "\nListening in port: "<<port<<"."<<std::endl;
 }
 /*=============================================================================================================================*/
 void DNS::Server::run() throw(){
-  std::cout << "DNS Server is running..." <<std:: endl;
+  std::cout << "Server is waiting for connections....." <<std:: endl;
   struct sockaddr_in clientAddress;
-  socklen_t addrLen = sizeof (struct sockaddr_in);
+  socklen_t addr_len = sizeof (struct sockaddr_in);
   char buffer[BUFFER_SIZE];
   while(true){
-    int numberbytes =   0;
-    numberbytes = recvfrom(this->s_sockfd , buffer , BUFFER_SIZE , 0 , (struct sockaddr*) &clientAddress , &addrLen);
+    int number_bytes =   0;
+    number_bytes = recvfrom(this->s_sockfd , buffer , BUFFER_SIZE , 0 , (struct sockaddr*) &clientAddress , &addr_len);
 
-    sendto(s_sockfd, buffer, numberbytes, 0, (struct sockaddr *) &clientAddress,
-           addrLen);
+    sendto(s_sockfd, buffer, number_bytes, 0, (struct sockaddr *) &clientAddress,
+           addr_len);
   }
 }
 #endif
