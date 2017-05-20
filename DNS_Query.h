@@ -17,6 +17,9 @@ namespace DNS{
 class Query{
 
   public:
+    enum Code { Ok=0, FormatError, ServerFailure, NameError,
+                NotImplemented, Refused };
+                
     void decodeQuery(const char* buffer, int size) throw();
     void decode_hdr(const char* buffer) throw ();
 
@@ -25,6 +28,18 @@ class Query{
     int get16bits(const char*& buffer) throw();
     void put16bits(char*& buffer, unsigned int value) throw ();
     void put32bits(char*& buffer, unsigned long value) throw ();
+
+    const std::string& getQName() const throw () { return m_qName; }
+    const unsigned int getQType() const throw () { return m_qType; }
+    const unsigned int getQClass() const throw () { return m_qClass; }
+
+    void setRCode(Code code) throw() { m_rcode = code; }
+    void setName(const std::string& value) throw() { m_name = value; }
+    void setType(const unsigned int value) throw() { m_type = value; }
+    void setClass(const unsigned int value) throw() { m_class = value; }
+    void setTtl(const unsigned int value) throw() { m_ttl = value; }
+    void setRdLength(const unsigned int value) throw() { m_rdLength = value; }
+    void setRdata(const std::string& value) throw() { m_rdata = value; }
 
   private:
     std::string m_qName;
