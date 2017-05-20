@@ -1,10 +1,12 @@
 #ifndef __readMasterFile__HXX__
 #define __readMasterFile__HXX__
 #include "readMasterFile.h"
-void masterFile::leerArchivo(std::string file){
-  ifstream myfile(file);
+std::map<std::string, std::string> MasterFile::leerArchivo(std::string file){
+  std::ifstream myfile(file);
+  std::map<std::string, std::string> r;
   if(myfile.is_open()==true){
     std::string line;
+
     while(getline(myfile,line)){
       int x=0;
       bool pasar=false;
@@ -24,13 +26,18 @@ void masterFile::leerArchivo(std::string file){
       }else{
         std::vector<std::string> data=quitarCaracteres(line);
         for(int i=0;i<data.size();i++){
-          cout<<data[i]<<endl;
+          r.insert(std::pair<std::string,std::string>(data[i],data[i+1]));
+          i++;
         }
       }
     }
   }
+  else{
+    return r;
+  }
+  return r;
 }
-std::vector<std::string> masterFile::quitarCaracteres(std::string line){
+std::vector<std::string> MasterFile::quitarCaracteres(std::string line){
   std::vector<std::string> v;
   std::string s="";
   for(int i=0;i<line.size();i++){
