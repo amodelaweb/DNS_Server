@@ -1,7 +1,7 @@
 #ifndef __DNS_Query_HXX
 #define __DNS_Query_HXX
-
-void DNS_Query::decodeQuery(const char* buffer, int size) throw() {
+#include "DNS_Query.h"
+void DNS::DNS_Query::decodeQuery(const char* buffer, int size) throw() {
     this->decode_hdr(buffer);
     buffer += HDR_OFFSET;
     this->decode_qname(buffer);
@@ -9,7 +9,7 @@ void DNS_Query::decodeQuery(const char* buffer, int size) throw() {
     this->m_qClass = this->get16bits(buffer);
 }
 
-void DNS_Query::decode_qname(const char*& buffer) throw() {
+void DNS::DNS_Query::decode_qname(const char*& buffer) throw() {
     this->m_qName.clear();
     int length = *buffer++;
     while (length != 0) {
@@ -22,7 +22,7 @@ void DNS_Query::decode_qname(const char*& buffer) throw() {
     }
 }
 
-int DNS_Query::get16bits(const char*& buffer) throw () {
+int DNS::DNS_Query::get16bits(const char*& buffer) throw () {
     int value = static_cast<uchar> (buffer[0]);
     value = value << 8;
     value += static_cast<uchar> (buffer[1]);
@@ -30,7 +30,7 @@ int DNS_Query::get16bits(const char*& buffer) throw () {
     return value;
 }
 
-void DNS_Query::decode_hdr(const char* buffer) throw () {
+void DNS::DNS_Query::decode_hdr(const char* buffer) throw () {
 
     this->m_id = get16bits(buffer);
 
@@ -48,7 +48,7 @@ void DNS_Query::decode_hdr(const char* buffer) throw () {
     this->m_arCount = get16bits(buffer);
 }
 
-int DNS_Query::codeRespose(char* buffer) throw() {
+int DNS::DNS_Query::codeRespose(char* buffer) throw() {
 
     char* bufferBegin = buffer;
 
@@ -73,7 +73,7 @@ int DNS_Query::codeRespose(char* buffer) throw() {
     return size;
 }
 
-void DNS_Query::code_hdr(char* buffer) throw () {
+void DNS::DNS_Query::code_hdr(char* buffer) throw () {
 
     this->put16bits(buffer, m_id);
 
@@ -89,14 +89,14 @@ void DNS_Query::code_hdr(char* buffer) throw () {
     this->put16bits(buffer, m_arCount);
 }
 
-void DNS_Query::put16bits(char*& buffer, unsigned int value) throw () {
+void DNS::DNS_Query::put16bits(char*& buffer, unsigned int value) throw () {
 
     buffer[0] = (value & 0xFF00) >> 8;
     buffer[1] = value & 0xFF;
     buffer += 2;
 }
 
-void DNS_Query::code_domain(char*& buffer, const std::string& domain) throw() {
+void DNS::DNS_Query::code_domain(char*& buffer, const std::string& domain) throw() {
 
     int start(0), end; // indexes
 
@@ -119,7 +119,7 @@ void DNS_Query::code_domain(char*& buffer, const std::string& domain) throw() {
     *buffer++ = 0;
 }
 
-void DNS_Query::put32bits(char*& buffer, ulong value) throw () {
+void DNS::DNS_Query::put32bits(char*& buffer, ulong value) throw () {
 
     buffer[0] = (value & 0xFF000000) >> 24;
     buffer[1] = (value & 0xFF0000) >> 16;
