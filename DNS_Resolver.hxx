@@ -33,7 +33,8 @@ std::string DNS::DNS_Resolver::find(std::string domain){
 
 void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   std::string qName = query.getQName();
-  std::string ipAddress = "";//convert(qName);
+  std::string ipAddress = "";
+  //convert(qName);
   /*std::string domainName = this->masterFile.find(ipAddress)->second;
 
   query.putQdCount(1);

@@ -11,6 +11,12 @@
 #define RA_MASK 0x8000;
 #define RCODE_MASK 0x000F;
 #define HDR_OFFSET 12;
+#define MASK_16 0xFF00;
+#define MASK_16_2 0xFF ;
+#define MASK_32 0xFF000000 ;
+#define MASK_32_2 0xFF0000 ;
+#define MASK_32_3 0xFF00 ;
+#define MASK_32_4 0xFF ;
 
 namespace DNS{
 
@@ -22,19 +28,21 @@ namespace DNS{
 class DNS_Query{
 
   public:
-    
+
+
     enum Code { Ok=0, FormatError, ServerFailure, NameError,
                 NotImplemented, Refused };
 
     void decodeQ(const char* buffer, int size) throw();
     void decodeheader(const char* buffer) throw ();
+    unsigned int getQType(); 
 
     int resposeCode(char* buffer) throw();
     void codeheader(char* buffer) throw ();
 
     int get16bitEncode(const char*& buffer) throw();
-    void put16bit(char*& buffer, unsigned int value) throw ();
-    void put32bit(char*& buffer, unsigned long value) throw ();
+    void putin16bit(char*& buffer, unsigned int value) throw ();
+    void putin32bit(char*& buffer, unsigned long value) throw ();
 
     const std::string& obtainQName() const throw () { return queryName; }
     const unsigned int obtainQType() const throw () { return queryType; }
@@ -95,7 +103,7 @@ class DNS_Query{
 
   private:
     std::string m_qName;
-    unsigned int m_qType;
+    unsigned int q_Type;
     unsigned int m_qClass;
     void decode_qname(const char*& buffer) throw();
 
