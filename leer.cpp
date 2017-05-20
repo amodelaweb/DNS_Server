@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include "readMasterFile.h"
+#include "DNS_Query.h"
+#include "DNS_Server.h"
 using namespace std;
 
 int main ()
