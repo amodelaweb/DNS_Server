@@ -11,9 +11,10 @@ class Query{
     void decodeQuery(const char* buffer, int size) throw();
     void decode_hdr(const char* buffer) throw ();
     std::string asStringQuery() const throw();
+
     int codeRespose(char* buffer) throw();
-    void decodeResponse(const char* buffer, int size) throw();
     std::string asStringRespose() const throw();
+    
     int get16bits(const char*& buffer) throw();
     void put16bits(char*& buffer, unsigned int value) throw ();
     void put32bits(char*& buffer, unsigned long value) throw ();
@@ -24,6 +25,14 @@ class Query{
     unsigned int m_qType;
     unsigned int m_qClass;
     void decode_qname(const char*& buffer) throw();
+
+    std::string m_name;
+    unsigned int m_type;
+    unsigned int m_class;
+    unsigned long m_ttl;
+    unsigned int m_rdLength;
+    std::string m_rdata;
+    void code_domain(char*& buffer, const std::string& domain) throw();
 
     unsigned int m_id;
     unsigned int m_qr;
