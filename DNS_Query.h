@@ -10,11 +10,9 @@ class Query{
   public:
     void decodeQuery(const char* buffer, int size) throw();
     void decode_hdr(const char* buffer) throw ();
-    std::string asStringQuery() const throw();
 
     int codeRespose(char* buffer) throw();
-    std::string asStringRespose() const throw();
-    
+
     int get16bits(const char*& buffer) throw();
     void put16bits(char*& buffer, unsigned int value) throw ();
     void put32bits(char*& buffer, unsigned long value) throw ();
