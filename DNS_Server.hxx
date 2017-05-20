@@ -24,13 +24,14 @@ void DNS::Server::init(int port) throw (DNSException) {
   std::cout << "\nListening in port: "<<port<<"."<<std::endl;
 }
 /*=============================================================================================================================*/
-void run() throw(){
+void DNS::Server::run() throw(){
   std::cout << "DNS Server is running..." <<std:: endl;
   struct sockaddr_in clientAddress;
   socklen_t addrLen = sizeof (struct sockaddr_in);
   char buffer[BUFFER_SIZE];
   while(true){
-    int numberbytes = std::recvfrom(this->m_sockfd , buffer , BUFFER_SIZE , 0 , (struct sockaddr*) &clientAddress , &addrLen);
+    int numberbytes =   recvfrom(this->m_sockfd , buffer , BUFFER_SIZE , 0 , (struct sockaddr*) &clientAddress , &addrLen);
+
   }
 }
 #endif
