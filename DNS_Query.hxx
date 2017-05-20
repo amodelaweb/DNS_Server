@@ -1,14 +1,9 @@
 #ifndef __DNS_Query_HXX
 #define __DNS_Query_HXX
-<<<<<<< HEAD
 
 #include "DNS_Query.h"
 
-void DNS_Query::decodeQuery(const char* buffer, int size) throw() {
-=======
-#include "DNS_Query.h"
 void DNS::DNS_Query::decodeQuery(const char* buffer, int size) throw() {
->>>>>>> 27c34b4e6b851765836690423db139efe34de902
     this->decode_hdr(buffer);
     buffer += HDR_OFFSET;
     this->decode_qname(buffer);
@@ -30,9 +25,9 @@ void DNS::DNS_Query::decode_qname(const char*& buffer) throw() {
 }
 
 int DNS::DNS_Query::get16bits(const char*& buffer) throw () {
-    int value = static_cast<uchar> (buffer[0]);
+    int value = static_cast<unsigned char> (buffer[0]);
     value = value << 8;
-    value += static_cast<uchar> (buffer[1]);
+    value += static_cast<unsigned char> (buffer[1]);
     buffer += 2;
     return value;
 }
@@ -107,7 +102,7 @@ void DNS::DNS_Query::code_domain(char*& buffer, const std::string& domain) throw
 
     int start(0), end; // indexes
 
-    while ((end = domain.find('.', start)) != string::npos) {
+    while ((end = domain.find('.', start)) != std::string::npos) {
 
         *buffer++ = end - start; // label length octet
         for (int i=start; i<end; i++) {
@@ -126,7 +121,7 @@ void DNS::DNS_Query::code_domain(char*& buffer, const std::string& domain) throw
     *buffer++ = 0;
 }
 
-void DNS::DNS_Query::put32bits(char*& buffer, ulong value) throw () {
+void DNS::DNS_Query::put32bits(char*& buffer, unsigned long value) throw () {
 
     buffer[0] = (value & 0xFF000000) >> 24;
     buffer[1] = (value & 0xFF0000) >> 16;

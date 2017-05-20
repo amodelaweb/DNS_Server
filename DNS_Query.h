@@ -24,6 +24,7 @@ class DNS_Query{
     void decode_hdr(const char* buffer) throw ();
 
     int codeRespose(char* buffer) throw();
+    void code_hdr(char* buffer) throw ();
 
     int get16bits(const char*& buffer) throw();
     void put16bits(char*& buffer, unsigned int value) throw ();
@@ -71,6 +72,6 @@ class DNS_Query{
 
   };
 }
-#include "DNS_Server.hxx"
+#include "DNS_Query.hxx"
 
 #endif
