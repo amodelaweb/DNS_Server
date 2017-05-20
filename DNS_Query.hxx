@@ -3,13 +3,6 @@
 
 #include "DNS_Query.h"
 
-<<<<<<< HEAD
-=======
-void DNS_Query::decodeQuery(const char* buffer, int size) throw() {
-=======
-#include "DNS_Query.h"
-
->>>>>>> 1a2422f50945e0775fc755c9951cbb90950f989e
 void DNS::DNS_Query::decodeQuery(const char* buffer, int size) throw() {
     this->decode_hdr(buffer);
     buffer += HDR_OFFSET;
