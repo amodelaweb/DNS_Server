@@ -2,6 +2,8 @@
 #define	_DNS_Resolver_H
 
 #include "readMasterFile.h"
+#include "DNS_Query.h"
+#include <iostream>
 
 namespace DNS{
 /*
@@ -13,6 +15,7 @@ class DNS_Resolver{
 
   public:
     void init(const std::string& filename);
+    void process(const Query& query) throw ();
 
   private:
     std::map<std::string, std::string> masterFile;

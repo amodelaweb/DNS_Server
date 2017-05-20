@@ -47,6 +47,18 @@ class DNS_Query{
     void setRdLength(const unsigned int value) throw() { m_rdLength = value; }
     void setRdata(const std::string& value) throw() { m_rdata = value; }
 
+    unsigned int getID() const throw() { return m_id; }
+    unsigned int getQdCount() const throw() { return m_qdCount; }
+    unsigned int getAnCount() const throw() { return m_anCount; }
+    unsigned int getNsCount() const throw() { return m_nsCount; }
+    unsigned int getArCount() const throw() { return m_arCount; }
+
+    void setID(unsigned int id) throw() { m_id = id; }
+    void setQdCount(unsigned int count) throw() { m_qdCount = count; }
+    void setAnCount(unsigned int count) throw() { m_anCount = count; }
+    void setNsCount(unsigned int count) throw() { m_nsCount = count; }
+    void setArCount(unsigned int count) throw() { m_arCount = count; }
+
   private:
     std::string m_qName;
     unsigned int m_qType;
