@@ -3,6 +3,10 @@
 #include <fstream>
 #include <map>
 #include <vector>
+/*
+* Archivo de texto desde donde se obtiene los
+* nombres de los sitios web.
+*/
 class MasterFile{
 
 public:
