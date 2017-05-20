@@ -57,12 +57,10 @@ int DNS::DNS_Query::resposeCode(char* buffer) throw() {
     this->codeheader(buffer);
     buffer += HDR_OFFSET;
 
-    // Code Question sections
     this->codedomain(buffer, principalName);
     this->put16bit(buffer, principalType);
     this->put16bit(buffer, principalClass);
 
-    // Code Answer section
     this->codedomain(buffer, principalName);
     this->put16bit(buffer, principalType);
     this->put16bit(buffer, principalClass);
@@ -111,22 +109,22 @@ void DNS::DNS_Query::put16bit(char*& buffer, unsigned int value) throw () {
 
 void DNS::DNS_Query::codedomain(char*& buffer, const std::string& domain) throw() {
 
-    int start(0), end; // indexes
+    int start(0), end;
 
     while ((end = domain.find('.', start)) != std::string::npos) {
 
-        *buffer++ = end - start; // label length octet
+        *buffer++ = end - start;
         for (int i=start; i<end; i++) {
 
-            *buffer++ = domain[i]; // label octets
+            *buffer++ = domain[i];
         }
-        start = end + 1; // Skip '.'
+        start = end + 1;
     }
 
-    *buffer++ = domain.size() - start; // last label length octet
+    *buffer++ = domain.size() - start;
     for (int i=start; i<domain.size(); i++) {
 
-        *buffer++ = domain[i]; // last label octets
+        *buffer++ = domain[i];
     }
 
     *buffer++ = 0;

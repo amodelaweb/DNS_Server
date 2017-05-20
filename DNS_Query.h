@@ -22,6 +22,7 @@ namespace DNS{
 class DNS_Query{
 
   public:
+
     enum Code { Ok=0, FormatError, ServerFailure, NameError,
                 NotImplemented, Refused };
 
@@ -82,6 +83,47 @@ class DNS_Query{
     void putAnCount(unsigned int count) throw() { this->headerAnCount = count; }
     void putNsCount(unsigned int count) throw() { this->headerNsCount = count; }
     void putArCount(unsigned int count) throw() { this->headerArCount = count; }
+
+    void setRCode(Code code) throw() { this->m_rcode = code; }
+    void setRdLength(const unsigned int value) throw() { this->m_rdLength = value; }
+    void setRdata(const std::string& value) throw() { this->m_rdata = value; }
+
+    unsigned int getID() const throw() { return m_id; }
+    unsigned int getQdCount() const throw() { return m_qdCount; }
+    unsigned int getAnCount() const throw() { return m_anCount; }
+    unsigned int getNsCount() const throw() { return m_nsCount; }
+    unsigned int getArCount() const throw() { return m_arCount; }
+
+    void setID(unsigned int id) throw() { m_id = id; }
+    void setQdCount(unsigned int count) throw() { this->m_qdCount = count; }
+    void setAnCount(unsigned int count) throw() { this->m_anCount = count; }
+    void setNsCount(unsigned int count) throw() { this->m_nsCount = count; }
+    void setArCount(unsigned int count) throw() { this->m_arCount = count; }
+
+  private:
+    std::string m_qName;
+    unsigned int m_qType;
+    unsigned int m_qClass;
+    void decode_qname(const char*& buffer) throw();
+
+    unsigned long m_ttl;
+    unsigned int m_rdLength;
+    std::string m_rdata;
+    void code_domain(char*& buffer, const std::string& domain) throw();
+
+    unsigned int m_id;
+    unsigned int m_qr;
+    unsigned int m_opcode;
+    unsigned int m_aa;
+    unsigned int m_tc;
+    unsigned int m_rd;
+    unsigned int m_ra;
+    unsigned int m_rcode;
+
+    unsigned int m_qdCount;
+    unsigned int m_anCount;
+    unsigned int m_nsCount;
+    unsigned int m_arCount;
 
   };
 }
