@@ -3,11 +3,23 @@
 
 #include <string>
 
+#define QR_MASK 0x8000;
+#define OPCODE_MASK 0x7800;
+#define AA_MASK 0x0400;
+#define TC_MASK 0x0200;
+#define RD_MASK 0x0100;
+#define RA_MASK 0x8000;
+#define RCODE_MASK 0x000F;
+#define HDR_OFFSET 12;
+
 namespace DNS{
 
-class Query{
+class DNS_Query{
 
   public:
+    enum Code { Ok=0, FormatError, ServerFailure, NameError,
+                NotImplemented, Refused };
+
     void decodeQuery(const char* buffer, int size) throw();
     void decode_hdr(const char* buffer) throw ();
 
@@ -17,8 +29,19 @@ class Query{
     void put16bits(char*& buffer, unsigned int value) throw ();
     void put32bits(char*& buffer, unsigned long value) throw ();
 
+    const std::string& getQName() const throw () { return m_qName; }
+    const unsigned int getQType() const throw () { return m_qType; }
+    const unsigned int getQClass() const throw () { return m_qClass; }
+
+    void setRCode(Code code) throw() { m_rcode = code; }
+    void setName(const std::string& value) throw() { m_name = value; }
+    void setType(const unsigned int value) throw() { m_type = value; }
+    void setClass(const unsigned int value) throw() { m_class = value; }
+    void setTtl(const unsigned int value) throw() { m_ttl = value; }
+    void setRdLength(const unsigned int value) throw() { m_rdLength = value; }
+    void setRdata(const std::string& value) throw() { m_rdata = value; }
+
   private:
-    static const unsigned int HDR_OFFSET = 12;
     std::string m_qName;
     unsigned int m_qType;
     unsigned int m_qClass;
@@ -46,13 +69,6 @@ class Query{
     unsigned int m_nsCount;
     unsigned int m_arCount;
 
-    static const unsigned int QR_MASK = 0x8000;
-    static const unsigned int OPCODE_MASK = 0x7800;
-    static const unsigned int AA_MASK = 0x0400;
-    static const unsigned int TC_MASK = 0x0200;
-    static const unsigned int RD_MASK = 0x0100;
-    static const unsigned int RA_MASK = 0x8000;
-    static const unsigned int RCODE_MASK = 0x000F;
   };
 }
 #include "DNS_Server.hxx"
