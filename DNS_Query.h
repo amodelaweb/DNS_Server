@@ -75,6 +75,7 @@ class DNS_Query{
     unsigned int headerNsCount;
     unsigned int headerArCount;
 
+
     void setRCode(Code code) throw() { this->m_rcode = code; }
     void setRdLength(const unsigned int value) throw() { this->m_rdLength = value; }
     void setRdata(const std::string& value) throw() { this->m_rdata = value; }
@@ -115,6 +116,22 @@ class DNS_Query{
     unsigned int m_anCount;
     unsigned int m_nsCount;
     unsigned int m_arCount;
+
+    void putRCode(Code code) throw() { this->m_rcode = code; }
+    void putRdLength(const unsigned int value) throw() { this->m_rdLength = value; }
+    void putRData(const std::string& value) throw() { this->m_rdata = value; }
+
+    unsigned int obtainID() const throw() { return m_id; }
+    unsigned int obtainQdCount() const throw() { return m_qdCount; }
+    unsigned int obtainAnCount() const throw() { return m_anCount; }
+    unsigned int obtainNsCount() const throw() { return m_nsCount; }
+    unsigned int obtainArCount() const throw() { return m_arCount; }
+
+    void putID(unsigned int id) throw() { m_id = id; }
+    void putQdCount(unsigned int count) throw() { this->m_qdCount = count; }
+    void putAnCount(unsigned int count) throw() { this->m_anCount = count; }
+    void putNsCount(unsigned int count) throw() { this->m_nsCount = count; }
+
 
   };
 }

@@ -27,7 +27,7 @@ std::string DNS::DNS_Resolver::find(std::string domain){
         }
       }
     }
-    
+
   }
 }
 
@@ -36,20 +36,23 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   std::string ipAddress = "";//convert(qName);
   /*std::string domainName = this->masterFile.find(ipAddress)->second;
 
-  query.setQdCount(1);
-  query.setAnCount(1);
-  query.setRdata(domainName);
+  query.putQdCount(1);
+  query.putAnCount(1);
+  query.putRData(domainName);
 
   std::cout << std::endl << "Query for: " << ipAddress;
   std::cout << std::endl << "query with: ";
 
   if (domainName.empty()) {
       std::cout << "NameError" << std::endl;
-      query.setRCode(DNS_Query::Code::NameError);
-      query.setRdLength(1); // null label
+      query.headerRCode(DNS_Query::Code::NameError);
+      query.putRdLength(1); // null label
   }
   else {
       std::cout << domainName << std::endl;
+      query.headerRCode(DNS_Query::Code::Ok);
+      query.putRdLength(domainName.size()+2); // + initial label length & null label
+  }
       query.setRCode(DNS_Query::Code::Ok);
       query.setRdLength(domainName.size()+2); // + initial label length & null label
   }*/
