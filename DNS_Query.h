@@ -19,7 +19,7 @@ class Query{
   public:
     enum Code { Ok=0, FormatError, ServerFailure, NameError,
                 NotImplemented, Refused };
-                
+
     void decodeQuery(const char* buffer, int size) throw();
     void decode_hdr(const char* buffer) throw ();
 
