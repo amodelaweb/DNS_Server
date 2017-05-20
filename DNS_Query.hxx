@@ -7,6 +7,7 @@
 void DNS_Query::decodeQuery(const char* buffer, int size) throw() {
 =======
 #include "DNS_Query.h"
+
 void DNS::DNS_Query::decodeQuery(const char* buffer, int size) throw() {
 >>>>>>> 27c34b4e6b851765836690423db139efe34de902
     this->decode_hdr(buffer);
