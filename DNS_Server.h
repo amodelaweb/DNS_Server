@@ -2,19 +2,33 @@
 #define	_DNS_SERVER_H
 
 #include <netinet/in.h>
+#include <iostream>
+#include <cstring>
+#include <sys/socket.h>
+#include <errno.h>
 
+/*=============================================================================================================================*/
 namespace DNS{
+/*=============================================================================================================================*/
+  struct DNSException{
+    std::string data ;
+    DNSException(std::string& data) : data(data){}
+    const char* what() const throw() {
+      return data.data();
+    }
+  };
+/*=============================================================================================================================*/
   class Server{
   public:
     Server();
     ~ Server() = default ;
-    void init(int port) throw (Exception);
+    void init(int port) throw (DNSException);
     void run() throw();
   private:
     static const int BUFFER_SIZE = 1024;
     struct sockaddr_in m_address;
     int m_sockfd;
-    DNS_Resolver* resolver ;
+
   };
 }
 #include "DNS_Server.hxx"
