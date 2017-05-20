@@ -16,6 +16,7 @@ class DNS_Resolver{
   public:
     void init(const std::string& filename);
     void process(DNS_Query& query) throw ();
+    std::string find(std::string domain);
 
   private:
     std::map<std::string, std::string> masterFile;
