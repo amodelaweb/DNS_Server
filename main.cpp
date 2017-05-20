@@ -1,5 +1,5 @@
 #include "DNS_Query.h"
-//#include "DNS_Resolver.h"
+#include "DNS_Resolver.h"
 
 int main ()
 {
