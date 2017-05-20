@@ -39,7 +39,6 @@ class DNS_Query{
     const unsigned int obtainQType() const throw () { return queryType; }
     const unsigned int obtainQClass() const throw () { return queryClass; }
 
-<<<<<<< HEAD
     void putRCode(Code code) throw() { headerRcode = code; }
     void putName(const std::string& value) throw() { principalName = value; }
     void putType(const unsigned int value) throw() { principalType = value; }
@@ -75,7 +74,7 @@ class DNS_Query{
     unsigned int headerAnCount;
     unsigned int headerNsCount;
     unsigned int headerArCount;
-=======
+
     void setRCode(Code code) throw() { this->m_rcode = code; }
     void setRdLength(const unsigned int value) throw() { this->m_rdLength = value; }
     void setRdata(const std::string& value) throw() { this->m_rdata = value; }
@@ -116,7 +115,6 @@ class DNS_Query{
     unsigned int m_anCount;
     unsigned int m_nsCount;
     unsigned int m_arCount;
->>>>>>> 7f122eea83b3afe3b6a86f2051f5e2eecd8dda95
 
   };
 }

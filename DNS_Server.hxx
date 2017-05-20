@@ -35,7 +35,7 @@ void DNS::Server::init(int port) throw (DNSException) {
 }
 /*=============================================================================================================================*/
 void DNS::Server::run() throw(){
-  std::cout << "Server is waiting for connections....." <<std:: endl;
+  std::cout << "Server is waiting for connections....." <<std::endl;
   struct sockaddr_in clientAddress;
   socklen_t addr_len = sizeof (struct sockaddr_in);
   struct sockaddr_storage addr;
