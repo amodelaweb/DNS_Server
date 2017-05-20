@@ -14,6 +14,13 @@
 
 namespace DNS{
 
+/*
+* Representa la petición que realiza el usuario para su respectiva resolución de dominio
+* a una dirección IP.
+*/
+class Query{
+=======
+
 class DNS_Query{
 
   public:

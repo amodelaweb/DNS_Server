@@ -19,6 +19,11 @@ namespace DNS{
     }
   };
 /*=============================================================================================================================*/
+/*
+* Provee una respuesta al resolver, también tiene el mapeo de
+* las direcciones IP de sitios web solicitados.
+*
+*/
   class Server{
   public:
     Server();
