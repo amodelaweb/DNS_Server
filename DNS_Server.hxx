@@ -16,6 +16,7 @@ void DNS::Server::init(int port) throw (DNSException) {
     DNSException e(error1);
     throw (e);
   }
+  
   this->s_address.sin_family = AF_INET ;
   this->s_address.sin_addr.s_addr = INADDR_ANY ;
   this->s_address.sin_port = htons(port);
