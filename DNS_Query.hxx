@@ -58,14 +58,14 @@ int DNS::DNS_Query::codeRespose(char* buffer) throw() {
     buffer += HDR_OFFSET;
 
     // Code Question section
-    this->code_domain(buffer, m_name);
-    this->put16bits(buffer, m_type);
-    this->put16bits(buffer, m_class);
+    this->code_domain(buffer, m_qName);
+    this->put16bits(buffer, m_qType);
+    this->put16bits(buffer, m_qClass);
 
     // Code Answer section
-    this->code_domain(buffer, m_name);
-    this->put16bits(buffer, m_type);
-    this->put16bits(buffer, m_class);
+    this->code_domain(buffer, m_qName);
+    this->put16bits(buffer, m_qType);
+    this->put16bits(buffer, m_qClass);
     this->put32bits(buffer, m_ttl);
     this->put16bits(buffer, m_rdLength);
     this->code_domain(buffer, m_rdata);

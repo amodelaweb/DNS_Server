@@ -39,13 +39,9 @@ class DNS_Query{
     const unsigned int getQType() const throw () { return m_qType; }
     const unsigned int getQClass() const throw () { return m_qClass; }
 
-    void setRCode(Code code) throw() { m_rcode = code; }
-    void setName(const std::string& value) throw() { m_name = value; }
-    void setType(const unsigned int value) throw() { m_type = value; }
-    void setClass(const unsigned int value) throw() { m_class = value; }
-    void setTtl(const unsigned int value) throw() { m_ttl = value; }
-    void setRdLength(const unsigned int value) throw() { m_rdLength = value; }
-    void setRdata(const std::string& value) throw() { m_rdata = value; }
+    void setRCode(Code code) throw() { this->m_rcode = code; }
+    void setRdLength(const unsigned int value) throw() { this->m_rdLength = value; }
+    void setRdata(const std::string& value) throw() { this->m_rdata = value; }
 
     unsigned int getID() const throw() { return m_id; }
     unsigned int getQdCount() const throw() { return m_qdCount; }
@@ -54,10 +50,10 @@ class DNS_Query{
     unsigned int getArCount() const throw() { return m_arCount; }
 
     void setID(unsigned int id) throw() { m_id = id; }
-    void setQdCount(unsigned int count) throw() { m_qdCount = count; }
-    void setAnCount(unsigned int count) throw() { m_anCount = count; }
-    void setNsCount(unsigned int count) throw() { m_nsCount = count; }
-    void setArCount(unsigned int count) throw() { m_arCount = count; }
+    void setQdCount(unsigned int count) throw() { this->m_qdCount = count; }
+    void setAnCount(unsigned int count) throw() { this->m_anCount = count; }
+    void setNsCount(unsigned int count) throw() { this->m_nsCount = count; }
+    void setArCount(unsigned int count) throw() { this->m_arCount = count; }
 
   private:
     std::string m_qName;
@@ -65,9 +61,6 @@ class DNS_Query{
     unsigned int m_qClass;
     void decode_qname(const char*& buffer) throw();
 
-    std::string m_name;
-    unsigned int m_type;
-    unsigned int m_class;
     unsigned long m_ttl;
     unsigned int m_rdLength;
     std::string m_rdata;
