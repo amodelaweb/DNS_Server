@@ -2,11 +2,12 @@
 #define __readMasterFile__HH__
 #include <fstream>
 #include <map>
-class masterFile{
-protected:
-  ifstream file;
+#include <vector>
+class MasterFile{
+
 public:
-  void leerArchivo(std::string file);
+  MasterFile()= default;
+  std::map<std::string, std::string> leerArchivo(std::string file);
   std::vector<std::string> quitarCaracteres(std::string line);
 };
 #include "readMasterFile.hxx"
