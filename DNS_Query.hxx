@@ -1,6 +1,8 @@
 #ifndef __DNS_Query_HXX
 #define __DNS_Query_HXX
 
+#include "DNS_Query.h"
+
 void DNS_Query::decodeQuery(const char* buffer, int size) throw() {
     this->decode_hdr(buffer);
     buffer += HDR_OFFSET;
@@ -34,7 +36,7 @@ void DNS_Query::decode_hdr(const char* buffer) throw () {
 
     this->m_id = get16bits(buffer);
 
-    uint fields = get16bits(buffer);
+    unsigned int fields = get16bits(buffer);
     this->m_qr = fields & QR_MASK;
     this->m_opcode = fields & OPCODE_MASK;
     this->m_aa = fields & AA_MASK;
