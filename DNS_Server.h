@@ -2,10 +2,11 @@
 #define	_DNS_SERVER_H
 
 #include <netinet/in.h>
-#include <iostream>
 #include <cstring>
 #include <sys/socket.h>
 #include <errno.h>
+#include <arpa/inet.h>
+#include <iostream>
 
 #define BUFFER_SIZE 1024
 /*=============================================================================================================================*/
@@ -19,11 +20,6 @@ namespace DNS{
     }
   };
 /*=============================================================================================================================*/
-/*
-* Provee una respuesta al resolver, también tiene el mapeo de
-* las direcciones IP de sitios web solicitados.
-*
-*/
   class Server{
   public:
     Server();

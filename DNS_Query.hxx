@@ -57,7 +57,7 @@ int DNS::DNS_Query::resposeCode(char* buffer) throw() {
     this->codeheader(buffer);
     buffer += HDR_OFFSET;
 
-    // Code Question section
+    // Code Question sections
     this->codedomain(buffer, principalName);
     this->put16bit(buffer, principalType);
     this->put16bit(buffer, principalClass);
@@ -69,6 +69,17 @@ int DNS::DNS_Query::resposeCode(char* buffer) throw() {
     this->put32bit(buffer, principalTtl);
     this->put16bit(buffer, principalrdLength);
     this->codedomain(buffer, principalrData);
+    this->code_domain(buffer, m_qName);
+    this->put16bits(buffer, m_qType);
+    this->put16bits(buffer, m_qClass);
+
+    // Code Answer section
+    this->code_domain(buffer, m_qName);
+    this->put16bits(buffer, m_qType);
+    this->put16bits(buffer, m_qClass);
+    this->put32bits(buffer, m_ttl);
+    this->put16bits(buffer, m_rdLength);
+    this->code_domain(buffer, m_rdata);
 
     int size = buffer - bufferBegin;
 
