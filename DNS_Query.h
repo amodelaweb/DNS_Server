@@ -39,13 +39,6 @@ class DNS_Query{
     const unsigned int obtainQType() const throw () { return queryType; }
     const unsigned int obtainQClass() const throw () { return queryClass; }
 
-    void putRCode(Code code) throw() { headerRcode = code; }
-    void putName(const std::string& value) throw() { principalName = value; }
-    void putType(const unsigned int value) throw() { principalType = value; }
-    void putClass(const unsigned int value) throw() { principalClass = value; }
-    void putTtl(const unsigned int value) throw() { principalTtl = value; }
-    void putRdLength(const unsigned int value) throw() { principalrdLength = value; }
-    void putRdata(const std::string& value) throw() { principalrData = value; }
 
   private:
     std::string queryName;
@@ -74,21 +67,21 @@ class DNS_Query{
     unsigned int headerAnCount;
     unsigned int headerNsCount;
     unsigned int headerArCount;
-    void putRCode(Code code) throw() { this->m_rcode = code; }
-    void putRdLength(const unsigned int value) throw() { this->m_rdLength = value; }
-    void putRData(const std::string& value) throw() { this->m_rdata = value; }
+    void putRCode(Code code) throw() { this->headerRcode = code; }
+    void putRdLength(const unsigned int value) throw() { this->principalrdLength = value; }
+    void putRData(const std::string& value) throw() { this->principalrData = value; }
 
-    unsigned int obtainID() const throw() { return m_id; }
-    unsigned int obtainQdCount() const throw() { return m_qdCount; }
-    unsigned int obtainAnCount() const throw() { return m_anCount; }
-    unsigned int obtainNsCount() const throw() { return m_nsCount; }
-    unsigned int obtainArCount() const throw() { return m_arCount; }
+    unsigned int obtainID() const throw() { return headerid; }
+    unsigned int obtainQdCount() const throw() { return headerQdCount; }
+    unsigned int obtainAnCount() const throw() { return headerAnCount; }
+    unsigned int obtainNsCount() const throw() { return headerNsCount; }
+    unsigned int obtainArCount() const throw() { return headerArCount; }
 
-    void putID(unsigned int id) throw() { m_id = id; }
-    void putQdCount(unsigned int count) throw() { this->m_qdCount = count; }
-    void putAnCount(unsigned int count) throw() { this->m_anCount = count; }
-    void putNsCount(unsigned int count) throw() { this->m_nsCount = count; }
-    void putArCount(unsigned int count) throw() { this->m_arCount = count; }
+    void putID(unsigned int id) throw() { headerid = id; }
+    void putQdCount(unsigned int count) throw() { this->headerQdCount = count; }
+    void putAnCount(unsigned int count) throw() { this->headerAnCount = count; }
+    void putNsCount(unsigned int count) throw() { this->headerNsCount = count; }
+    void putArCount(unsigned int count) throw() { this->headerArCount = count; }
 
   };
 }

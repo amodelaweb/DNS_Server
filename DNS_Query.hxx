@@ -69,17 +69,17 @@ int DNS::DNS_Query::resposeCode(char* buffer) throw() {
     this->put32bit(buffer, principalTtl);
     this->put16bit(buffer, principalrdLength);
     this->codedomain(buffer, principalrData);
-    this->code_domain(buffer, m_qName);
-    this->put16bits(buffer, m_qType);
-    this->put16bits(buffer, m_qClass);
+    this->codedomain(buffer, principalName);
+    this->put16bit(buffer, principalType);
+    this->put16bit(buffer, principalClass);
 
     // Code Answer section
-    this->code_domain(buffer, m_qName);
-    this->put16bits(buffer, m_qType);
-    this->put16bits(buffer, m_qClass);
-    this->put32bits(buffer, m_ttl);
-    this->put16bits(buffer, m_rdLength);
-    this->code_domain(buffer, m_rdata);
+    this->codedomain(buffer, principalName);
+    this->put16bit(buffer, principalType);
+    this->put16bit(buffer, principalClass);
+    this->put32bit(buffer, principalTtl);
+    this->put16bit(buffer, principalrdLength);
+    this->codedomain(buffer, principalrData);
 
     int size = buffer - bufferBegin;
 
