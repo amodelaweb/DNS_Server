@@ -26,8 +26,8 @@ namespace DNS{
     void run() throw();
   private:
     static const int BUFFER_SIZE = 1024;
-    struct sockaddr_in m_address;
-    int m_sockfd;
+    struct sockaddr_in s_address;
+    int s_sockfd;
 
   };
 }
