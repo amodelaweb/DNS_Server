@@ -3,15 +3,20 @@
 
 #include <string>
 
-#define QR_MASK 0x8000;
-#define OPCODE_MASK 0x7800;
-#define AA_MASK 0x0400;
-#define TC_MASK 0x0200;
-#define RD_MASK 0x0100;
-#define RA_MASK 0x8000;
-#define RCODE_MASK 0x000F;
-#define HDR_OFFSET 12;
-
+#define QR_MASK 0x8000
+#define OPCODE_MASK 0x7800
+#define AA_MASK 0x0400
+#define TC_MASK 0x0200
+#define RD_MASK 0x0100
+#define RA_MASK 0x8000
+#define RCODE_MASK 0x000F
+#define HDR_OFFSET 12
+#define MASK16 0xFF00
+#define MASK16_1 0xFF
+#define MASK32 0xFF000000
+#define MASK32_1 0xFF0000
+#define MASK32_2 0xFF00
+#define MASK32_3 0xFF
 namespace DNS{
 
 /*
@@ -33,8 +38,8 @@ class DNS_Query{
     void codeheader(char* buffer) throw ();
 
     int get16bitEncode(const char*& buffer) throw();
-    void put16bit(char*& buffer, unsigned int value) throw ();
-    void put32bit(char*& buffer, unsigned long value) throw ();
+    void putin16bit(char*& buffer, unsigned int value) throw ();
+    void putin32bit(char*& buffer, unsigned long value) throw ();
 
     const std::string& obtainQName() const throw () { return queryName; }
     const unsigned int obtainQType() const throw () { return queryType; }
@@ -105,3 +110,4 @@ class DNS_Query{
 #include "DNS_Query.hxx"
 
 #endif
+/*=============================================================================================================================*/
