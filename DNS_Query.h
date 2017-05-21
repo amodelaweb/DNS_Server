@@ -3,15 +3,20 @@
 
 #include <string>
 
-#define QR_MASK 0x8000;
-#define OPCODE_MASK 0x7800;
-#define AA_MASK 0x0400;
-#define TC_MASK 0x0200;
-#define RD_MASK 0x0100;
-#define RA_MASK 0x8000;
-#define RCODE_MASK 0x000F;
-#define HDR_OFFSET 12;
-
+#define QR_MASK 0x8000
+#define OPCODE_MASK 0x7800
+#define AA_MASK 0x0400
+#define TC_MASK 0x0200
+#define RD_MASK 0x0100
+#define RA_MASK 0x8000
+#define RCODE_MASK 0x000F
+#define HDR_OFFSET 12
+#define MASK16 0xFF00
+#define MASK16_1 0xFF
+#define MASK32 0xFF000000
+#define MASK32_1 0xFF0000
+#define MASK32_2 0xFF00
+#define MASK32_3 0xFF
 namespace DNS{
 
 /*
@@ -33,8 +38,8 @@ class DNS_Query{
     void codeheader(char* buffer) throw ();
 
     int get16bitEncode(const char*& buffer) throw();
-    void put16bit(char*& buffer, unsigned int value) throw ();
-    void put32bit(char*& buffer, unsigned long value) throw ();
+    void putin16bit(char*& buffer, unsigned int value) throw ();
+    void putin32bit(char*& buffer, unsigned long value) throw ();
 
     const std::string& obtainQName() const throw () { return queryName; }
     const unsigned int obtainQType() const throw () { return queryType; }
@@ -84,49 +89,25 @@ class DNS_Query{
     void putNsCount(unsigned int count) throw() { this->headerNsCount = count; }
     void putArCount(unsigned int count) throw() { this->headerArCount = count; }
 
-    void setRCode(Code code) throw() { this->m_rcode = code; }
-    void setRdLength(const unsigned int value) throw() { this->m_rdLength = value; }
-    void setRdata(const std::string& value) throw() { this->m_rdata = value; }
+    void setRCode(Code code) throw() { this->headerRcode = code; }
+    void setRdLength(const unsigned int value) throw() { this->principalrdLength = value; }
+    void setRdata(const std::string& value) throw() { this->principalrData = value; }
 
-    unsigned int getID() const throw() { return m_id; }
-    unsigned int getQdCount() const throw() { return m_qdCount; }
-    unsigned int getAnCount() const throw() { return m_anCount; }
-    unsigned int getNsCount() const throw() { return m_nsCount; }
-    unsigned int getArCount() const throw() { return m_arCount; }
+    unsigned int getID() const throw() { return headerid; }
+    unsigned int getQdCount() const throw() { return headerQdCount; }
+    unsigned int getAnCount() const throw() { return headerAnCount; }
+    unsigned int getNsCount() const throw() { return headerNsCount; }
+    unsigned int getArCount() const throw() { return headerArCount; }
 
-    void setID(unsigned int id) throw() { m_id = id; }
-    void setQdCount(unsigned int count) throw() { this->m_qdCount = count; }
-    void setAnCount(unsigned int count) throw() { this->m_anCount = count; }
-    void setNsCount(unsigned int count) throw() { this->m_nsCount = count; }
-    void setArCount(unsigned int count) throw() { this->m_arCount = count; }
-
-  private:
-    std::string m_qName;
-    unsigned int m_qType;
-    unsigned int m_qClass;
-    void decode_qname(const char*& buffer) throw();
-
-    unsigned long m_ttl;
-    unsigned int m_rdLength;
-    std::string m_rdata;
-    void code_domain(char*& buffer, const std::string& domain) throw();
-
-    unsigned int m_id;
-    unsigned int m_qr;
-    unsigned int m_opcode;
-    unsigned int m_aa;
-    unsigned int m_tc;
-    unsigned int m_rd;
-    unsigned int m_ra;
-    unsigned int m_rcode;
-
-    unsigned int m_qdCount;
-    unsigned int m_anCount;
-    unsigned int m_nsCount;
-    unsigned int m_arCount;
+    void setID(unsigned int id) throw() { headerid = id; }
+    void setQdCount(unsigned int count) throw() { this->headerQdCount = count; }
+    void setAnCount(unsigned int count) throw() { this->headerAnCount = count; }
+    void setNsCount(unsigned int count) throw() { this->headerNsCount = count; }
+    void setArCount(unsigned int count) throw() { this->headerArCount = count; }
 
   };
 }
 #include "DNS_Query.hxx"
 
 #endif
+/*=============================================================================================================================*/
