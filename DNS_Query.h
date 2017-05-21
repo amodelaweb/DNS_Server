@@ -47,6 +47,7 @@ class DNS_Query{
 
 
   private:
+
     std::string queryName;
     unsigned int queryType;
     unsigned int queryClass;
@@ -77,6 +78,7 @@ class DNS_Query{
     void putRdLength(const unsigned int value) throw() { this->principalrdLength = value; }
     void putRData(const std::string& value) throw() { this->principalrData = value; }
 
+    unsigned int obtainQueryType(){ return queryType}
     unsigned int obtainID() const throw() { return headerid; }
     unsigned int obtainQdCount() const throw() { return headerQdCount; }
     unsigned int obtainAnCount() const throw() { return headerAnCount; }
@@ -92,6 +94,7 @@ class DNS_Query{
     void setRCode(Code code) throw() { this->headerRcode = code; }
     void setRdLength(const unsigned int value) throw() { this->principalrdLength = value; }
     void setRdata(const std::string& value) throw() { this->principalrData = value; }
+<<<<<<< HEAD
 
     unsigned int getID() const throw() { return headerid; }
     unsigned int getQdCount() const throw() { return headerQdCount; }
@@ -99,6 +102,15 @@ class DNS_Query{
     unsigned int getNsCount() const throw() { return headerNsCount; }
     unsigned int getArCount() const throw() { return headerArCount; }
 
+=======
+
+    unsigned int getID() const throw() { return headerid; }
+    unsigned int getQdCount() const throw() { return headerQdCount; }
+    unsigned int getAnCount() const throw() { return headerAnCount; }
+    unsigned int getNsCount() const throw() { return headerNsCount; }
+    unsigned int getArCount() const throw() { return headerArCount; }
+
+>>>>>>> b5d513e58f46e92c3887e8cceda2e3e5fd8d2526
     void setID(unsigned int id) throw() { headerid = id; }
     void setQdCount(unsigned int count) throw() { this->headerQdCount = count; }
     void setAnCount(unsigned int count) throw() { this->headerAnCount = count; }

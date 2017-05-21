@@ -22,7 +22,8 @@ void DNS::DNS_Query::decodeQueryName(const char*& buffer) throw() {
             this->queryName.append(1, c);
         }
         length = *buffer++;
-        if (length != 0) queryName.append(1,'.');
+        if (length != 0)
+        this->queryName.append(1,'.');
     }
 }
 /*=============================================================================================================================*/
