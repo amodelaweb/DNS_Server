@@ -8,27 +8,35 @@ void DNS::DNS_Resolver::init(const std::string& filename){
   this->masterFile= file.leerArchivo(filename);
 }
 
-std::string DNS::DNS_Resolver::find(std::string domain){
-  std::map<std::string, std::string>::iterator it=this->masterFile.find(domain);
-  if(it!=this->masterFile.end()){
-    return it->second;
-  }
-  else{
-    bool x=true;
-    for(int i=0;i<4;i++){
-      if(i==3){
-        if(domain[i]!='.'){
-          x=false;
-        }
-      }
-      else{
-        if(domain[i]!='w'){
-          x=false;
-        }
+std::string DNS::DNS_Resolver::find(std::string domain, std::string type){
+  bool x=true;
+  for(int i=0;i<4;i++){
+    if(i==3){
+      if(domain[i]!='.'){
+        x=false;
       }
     }
-
+    else{
+      if(domain[i]!='w'){
+        x=false;
+      }
+    }
   }
+  if(x){
+    domain= "www."+domain;
+  }
+  std::multimap<std::string, std::string>::iterator it=this->masterFile.find(domain);
+  std::pair<std::multimap<std::string,std::string>::iterator,std::multimap<std::string,std::string>::iterator> ret;
+  ret= this->masterFile.equal_range(it->first);
+  for(std::multimap<std::string,std::string>::iterator it2=ret.first;it2!=ret.second;++it2){
+    if(it2->second.size()>16&&type=="AAAA"){
+      return it2->second;
+    }
+    if(it2->second.size()<16&&type=="A"){
+      return it2->second;
+    }
+  }
+  return "error";
 }
 
 void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
