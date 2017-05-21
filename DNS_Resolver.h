@@ -22,7 +22,7 @@ class DNS_Resolver{
     std::string findIP(std::string ipName);
 
   private:
-    std::map<std::string, std::string> Records;
+    std::multimap<std::string, std::string> Records;
   };
 }
 #include "DNS_Resolver.hxx"
