@@ -53,7 +53,7 @@ std::string DNS::DNS_Resolver::find(std::string domain, unsigned int type){
 }
 /*=============================================================================================================================*/
 void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
-  std::string qName = query.getQName();
+  std::string qName = query.obtainQName();
   std::string ipAddress = "";
   std::string domainName = "";
   unsigned int type = query.obtainQType();
@@ -66,8 +66,7 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
     std::string ipName = this->ReverseIP(qName);
     domainName = this->findIP(ipName);
     break ;
-    default:
-    break;
+
   }
 
   query.putAll();
@@ -80,37 +79,37 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   }
   if(ipAddress == "error" || domainName == "error"){
     std::cout<<"\n Name error !! "<<std::endl;
-    query.putRCode(query::NameError);
+    query.putRCode(DNS_Query::NameError);
     query.putRdLength(1);
   }
   else{
     if(type == 1){
       std::cout<<"\n Ip Adress : "<<ipAddress;
-      query.setRdLength(ipAddress.size() + 2) ;
+      query.putRdLength(ipAddress.size() + 2) ;
     }else if(type == 12){
       std::cout<<"\n Domain Name : "<<domainName;
-      query.setRdLength(domainName.size() + 2);
+      query.putRdLength(domainName.size() + 2);
     }
-    query.putRCode(query::Ok);
+    query.putRCode(DNS_Query::Ok);
 
   }
 
 }
 /*=============================================================================================================================*/
-std::string Resolver::ReverseIP(const std::string& ip) throw() {
+std::string DNS::DNS_Resolver::ReverseIP(const std::string& ip) throw() {
 
   int pos_n = ip.find(".in-addr.arpa");
   if (pos_n == std::string::npos){
-    return string();
+    return std::string();
   }
 
-  string tmp(ip, 0, pos);
-  string ipAddress;
-  while ((pos = tmp.rfind('.')) != std::string::npos) {
+  std::string tmp(ip, 0, pos_n);
+  std::string ipAddress;
+  while ((pos_n = tmp.rfind('.')) != std::string::npos) {
 
-    ipAddress.append(tmp, pos+1, tmp.size());
+    ipAddress.append(tmp, pos_n+1, tmp.size());
     ipAddress.append(".");
-    tmp.erase(pos, tmp.size());
+    tmp.erase(pos_n, tmp.size());
   }
   ipAddress.append(tmp, 0, tmp.size());
 

@@ -81,7 +81,7 @@ int DNS::DNS_Query::resposeCode(char* buffer) throw() {
     this->putin16bit(buffer, principalrdLength);
     this->encodeResponse(buffer, principalrData);
 
-    int size = buffer - bufferBegin;
+    int size = buffer - begin;
 
     return size;
 }

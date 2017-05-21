@@ -1,7 +1,7 @@
 #ifndef _DNS_SERVER_HXX
 #define	_DNS_SERVER_HXX
 #include "DNS_Server.h"
-
+#include "DNS_Resolver.h"
 /*=============================================================================================================================*/
 DNS::Server::Server(){
 
