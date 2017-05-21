@@ -91,32 +91,6 @@ class DNS_Query{
     void putNsCount(unsigned int count) throw() { this->headerNsCount = count; }
     void putArCount(unsigned int count) throw() { this->headerArCount = count; }
 
-    void setRCode(Code code) throw() { this->headerRcode = code; }
-    void setRdLength(const unsigned int value) throw() { this->principalrdLength = value; }
-    void setRdata(const std::string& value) throw() { this->principalrData = value; }
-<<<<<<< HEAD
-
-    unsigned int getID() const throw() { return headerid; }
-    unsigned int getQdCount() const throw() { return headerQdCount; }
-    unsigned int getAnCount() const throw() { return headerAnCount; }
-    unsigned int getNsCount() const throw() { return headerNsCount; }
-    unsigned int getArCount() const throw() { return headerArCount; }
-
-=======
-
-    unsigned int getID() const throw() { return headerid; }
-    unsigned int getQdCount() const throw() { return headerQdCount; }
-    unsigned int getAnCount() const throw() { return headerAnCount; }
-    unsigned int getNsCount() const throw() { return headerNsCount; }
-    unsigned int getArCount() const throw() { return headerArCount; }
-
->>>>>>> b5d513e58f46e92c3887e8cceda2e3e5fd8d2526
-    void setID(unsigned int id) throw() { headerid = id; }
-    void setQdCount(unsigned int count) throw() { this->headerQdCount = count; }
-    void setAnCount(unsigned int count) throw() { this->headerAnCount = count; }
-    void setNsCount(unsigned int count) throw() { this->headerNsCount = count; }
-    void setArCount(unsigned int count) throw() { this->headerArCount = count; }
-
   };
 }
 #include "DNS_Query.hxx"

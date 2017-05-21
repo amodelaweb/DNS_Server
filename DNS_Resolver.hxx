@@ -62,10 +62,38 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
     ipAddress = this->find(qName , 1);
     break;
     case 12:
+    domainName = this->findIP(qName);
     break ;
     default:
     break;
   }
+
+  query.setID();
+  query.putQdCount(1);
+  query.putAnCount(1);
+  if(type == 1){
+    query.putRData(ipAddress);
+  }else if(type == 12){
+    query.putRData(domainName);
+  }
+  if(ipAddress == "error" || domainName == "error"){
+    std::cout<<"\n Name error !! "<<std::endl;
+    query.putRCode(query::NameError);
+    query.putRdLength(1);
+  }
+  else{
+    if(type == 1){
+      std::cout<<"\n Ip Adress : "<<ipAddress;
+      query.setRdLength(ipAddress.size() + 2) ;
+    }else if(type == 12){
+      std::cout<<"\n Domain Name : "<<domainName;
+      query.setRdLength(domainName.size() + 2);
+    }
+    query.putRCode(query::Ok);
+
+
+  }
+
   //convert(qName);
   /*std::string domainName = this->masterFile.find(ipAddress)->second;
 
