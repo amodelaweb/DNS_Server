@@ -8,7 +8,7 @@ void DNS::DNS_Resolver::init(const std::string& filename){
   this->masterFile= file.leerArchivo(filename);
 }
 
-std::string DNS::DNS_Resolver::find(std::string domain, std::string type){
+std::string DNS::DNS_Resolver::find(std::string domain, unsigned int type){
   bool x=true;
   for(int i=0;i<4;i++){
     if(i==3){
@@ -28,13 +28,25 @@ std::string DNS::DNS_Resolver::find(std::string domain, std::string type){
   std::multimap<std::string, std::string>::iterator it=this->masterFile.find(domain);
   std::pair<std::multimap<std::string,std::string>::iterator,std::multimap<std::string,std::string>::iterator> ret;
   ret= this->masterFile.equal_range(it->first);
-  for(std::multimap<std::string,std::string>::iterator it2=ret.first;it2!=ret.second;++it2){
-    if(it2->second.size()>16&&type=="AAAA"){
-      return it2->second;
+  bool yes = false ;
+  int type1 = -1 ;
+  std::string buffaux ;
+  for(std::multimap<std::string,std::string>::iterator it2=ret.first;it2!=ret.second && !yes;++it2){
+    if(it2->second.size()>16&&type==14){
+      type1 = 0 ;
+      buffaux = it2->second ;
+      yes = true ;
     }
-    if(it2->second.size()<16&&type=="A"){
-      return it2->second;
+    if(it2->second.size()<16&&type==1){
+      type1 = 1 ;
+      yes = true ;
+      buffaux = it2->second ;
     }
+  }
+  if(type1 == 0 ){
+    return buffaux ;
+  }else if(type1 == 1){
+    return buffaux ;
   }
   return "error";
 }
@@ -42,12 +54,14 @@ std::string DNS::DNS_Resolver::find(std::string domain, std::string type){
 void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   std::string qName = query.getQName();
   std::string ipAddress = "";
+  std::string domainName = "";
   unsigned int type = query.obtainQType();
+
   switch (type) {
     case 1:
-    
+    ipAddress = this->find(qName , 1);
     break;
-    case 2:
+    case 12:
     break ;
     default:
     break;
