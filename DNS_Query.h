@@ -57,11 +57,11 @@ class DNS_Query{
     unsigned int obtainNsCount() const throw() { return headerNsCount; }
     unsigned int obtainArCount() const throw() { return headerArCount; }
 
-    void putID(unsigned int id) throw() { headerid = id; }
     void putQdCount(unsigned int count) throw() { this->headerQdCount = count; }
     void putAnCount(unsigned int count) throw() { this->headerAnCount = count; }
     void putNsCount(unsigned int count) throw() { this->headerNsCount = count; }
     void putArCount(unsigned int count) throw() { this->headerArCount = count; }
+    void putPrincipalDataA(unsigned long data) throw() { this->principalrDataA = data ; }
 
     void decodeQueryName(const char*& buffer) throw();
     void encodeResponse(char*& buffer, const std::string& response) throw();
@@ -77,10 +77,10 @@ class DNS_Query{
     unsigned int principalID ;
     unsigned int principalType;
     unsigned int principalClass;
-    unsigned long principalTtl;
+    unsigned long principalTtl = (unsigned long) 150;
     unsigned int principalrdLength;
     std::string principalrData;
-
+    unsigned long principalrDataA  ;
 
     unsigned int headerid;
     unsigned int headerQr;

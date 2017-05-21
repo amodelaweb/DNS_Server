@@ -2,6 +2,8 @@
 #define	_DNS_Resolver_H
 
 #include <iostream>
+#include <string>
+#include <algorithm>
 
 #include "readMasterFile.h"
 #include "DNS_Query.h"
@@ -15,7 +17,7 @@ namespace DNS{
 class DNS_Resolver{
 
   public:
-    void init(const std::string& filename);
+    bool init( std::string& filename);
     void process(DNS_Query& query) throw ();
     std::string find(std::string domain, unsigned int type);
     std::string ReverseIP(const std::string& ip) throw();
