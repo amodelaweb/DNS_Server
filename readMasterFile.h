@@ -13,7 +13,7 @@ namespace DNS{
 
   public:
     MasterFile()= default;
-    std::map<std::string, std::string> ReadFile(std::string file);
+    std::multimap<std::string, std::string> ReadFile(std::string file);
     std::vector<std::string> EraseCharacters(std::string line);
   };
 }
