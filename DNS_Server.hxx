@@ -41,15 +41,16 @@ void DNS::Server::run() throw(){
   struct sockaddr_storage addr;
   char ipstr[INET_ADDRSTRLEN];
   char buffer[BUFFER_SIZE];
-    printf("yo soy IP address %s\n",  inet_ntop(AF_INET, (void*)&this->s_address.sin_family ,ipstr, sizeof ipstr));
+  DNS_Query q ;
+    printf("\nyo soy IP address %s\n",  inet_ntop(AF_INET, (void*)&this->s_address.sin_family ,ipstr, sizeof ipstr));
   while(true){
     int number_bytes =   0;
     number_bytes = recvfrom(this->s_sockfd , buffer , BUFFER_SIZE , 0 , (struct sockaddr*) &clientAddress , &addr_len);
+    q.decodeQ(buffer , number_bytes);
 
-
-    printf("recv()'d %d bytes of data in buf\n", number_bytes);
-    printf("from IP address %s\n",  inet_ntop(AF_INET, (void*)&clientAddress.sin_addr ,ipstr, sizeof ipstr));
-
+    printf("\nRecibidos %d bytes of data in buffer\n", number_bytes);
+    printf("\nFrom IP address %s",  inet_ntop(AF_INET, (void*)&clientAddress.sin_addr ,ipstr, sizeof ipstr));
+    std::cout<<"\n Datos recibidos : -"<<q.obtainQName()<<"-";
 
 
   }

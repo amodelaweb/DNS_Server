@@ -7,6 +7,7 @@
 #include <errno.h>
 #include <arpa/inet.h>
 #include <iostream>
+#include "DNS_Query.h"
 
 #define BUFFER_SIZE 1024
 /*=============================================================================================================================*/
