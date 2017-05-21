@@ -4,9 +4,14 @@
 #include "DNS_Resolver.h"
 
 /*=============================================================================================================================*/
-void DNS::DNS_Resolver::init(const std::string& filename){
-  MasterFile file= MasterFile();
-  this->Records= file.ReadFile(filename);
+bool DNS::DNS_Resolver::init(const std::string& filename){
+  MasterFile file=  MasterFile();
+  if(file.ReadFile(filename)){
+    this->Records = file.getRecords() ;
+    return true ;
+  }else{
+    return false ; 
+  }
 }
 /*=============================================================================================================================*/
 std::string DNS::DNS_Resolver::find(std::string domain, unsigned int type){

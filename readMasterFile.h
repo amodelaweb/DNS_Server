@@ -10,11 +10,12 @@
 */
 namespace DNS{
   class MasterFile{
-
+    std::multimap<std::string, std::string>  r ;
   public:
     MasterFile()= default;
-    std::multimap<std::string, std::string> ReadFile(std::string file);
+    bool ReadFile(std::string file);
     std::vector<std::string> EraseCharacters(std::string line);
+    std::multimap<std::string, std::string> getRecords();
   };
 }
 #include "readMasterFile.hxx"

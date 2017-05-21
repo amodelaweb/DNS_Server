@@ -8,6 +8,7 @@
 #include <arpa/inet.h>
 #include <iostream>
 #include "DNS_Query.h"
+#include "DNS_Resolver.h"
 
 #define BUFFER_SIZE 1024
 /*=============================================================================================================================*/
@@ -25,14 +26,14 @@ namespace DNS{
   public:
     Server();
     ~ Server() = default ;
-    void init(int port) throw (DNSException);
+    void init(int port  , std::string& filename) throw (DNSException);
     void run() throw();
   private:
 
     struct sockaddr_in s_address;
     int s_sockfd;
     DNS_Query s_query;
-
+    DNS_Resolver resolver ;
   };
 }
 #include "DNS_Server.hxx"

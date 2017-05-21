@@ -4,9 +4,8 @@
 #include "readMasterFile.h"
 
 /*=============================================================================================================================*/
-std::multimap<std::string, std::string> DNS::MasterFile::ReadFile(std::string file){
+bool DNS::MasterFile::ReadFile(std::string file){
   std::ifstream myfile(file);
-  std::multimap<std::string, std::string> r;
   if(myfile.is_open()==true){
     std::string line;
     while(getline(myfile,line)){
@@ -57,9 +56,9 @@ std::multimap<std::string, std::string> DNS::MasterFile::ReadFile(std::string fi
     }
   }
   else{
-    return r;
+    return false;
   }
-  return r;
+  return true ;
 }
 /*=============================================================================================================================*/
 std::vector<std::string> DNS::MasterFile::EraseCharacters(std::string line){
@@ -85,4 +84,7 @@ std::vector<std::string> DNS::MasterFile::EraseCharacters(std::string line){
   return v;
 }
 /*=============================================================================================================================*/
+std::multimap<std::string, std::string> DNS::MasterFile::getRecords(){
+  return this->r;
+}
 #endif
