@@ -50,6 +50,8 @@ void DNS::Server::run() throw(){
     printf("recv()'d %d bytes of data in buf\n", number_bytes);
     printf("from IP address %s\n",  inet_ntop(AF_INET, (void*)&clientAddress.sin_addr ,ipstr, sizeof ipstr));
 
+
+
   }
 }
 #endif

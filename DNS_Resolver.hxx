@@ -34,6 +34,16 @@ std::string DNS::DNS_Resolver::find(std::string domain){
 void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   std::string qName = query.getQName();
   std::string ipAddress = "";
+  unsigned int type = query.obtainQType();
+  switch (type) {
+    case 1:
+    
+    break;
+    case 2:
+    break ;
+    default:
+    break;
+  }
   //convert(qName);
   /*std::string domainName = this->masterFile.find(ipAddress)->second;
 
@@ -45,18 +55,18 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   std::cout << std::endl << "query with: ";
 
   if (domainName.empty()) {
-      std::cout << "NameError" << std::endl;
-      query.headerRCode(DNS_Query::Code::NameError);
-      query.putRdLength(1); // null label
-  }
-  else {
-      std::cout << domainName << std::endl;
-      query.headerRCode(DNS_Query::Code::Ok);
-      query.putRdLength(domainName.size()+2); // + initial label length & null label
-  }
-      query.setRCode(DNS_Query::Code::Ok);
-      query.setRdLength(domainName.size()+2); // + initial label length & null label
-  }*/
+  std::cout << "NameError" << std::endl;
+  query.headerRCode(DNS_Query::Code::NameError);
+  query.putRdLength(1); // null label
+}
+else {
+std::cout << domainName << std::endl;
+query.headerRCode(DNS_Query::Code::Ok);
+query.putRdLength(domainName.size()+2); // + initial label length & null label
+}
+query.setRCode(DNS_Query::Code::Ok);
+query.setRdLength(domainName.size()+2); // + initial label length & null label
+}*/
 }
 
 #endif
