@@ -2,13 +2,16 @@
 # xdxdxd
 
 
-127.0.0.1     	localhost    #Localhost
+127.0.0.1     	localhost    #Localhost                                                                    
+
   128.0.0.1	www.facebook.com
 132.167.1.0   	xd.com
-    132.167.1.0     	xd.com
+
+    132.167.1.2     	xd.com
 
 
 
+132.167.1.3   	www.xd.com
 
 #temrnaa
 #
