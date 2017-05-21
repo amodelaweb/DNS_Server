@@ -26,6 +26,9 @@ std::map<std::string, std::string> MasterFile::leerArchivo(std::string file){
       }else{
         std::vector<std::string> data=quitarCaracteres(line);
         for(int i=0;i<data.size();i++){
+          if(data[i+1][data[i+1].size()-1] == 13){
+            data[i+1].erase(data[i+1].size() - 1, data[i+1].size());
+          }
           r.insert(std::pair<std::string,std::string>(data[i],data[i+1]));
           i++;
         }

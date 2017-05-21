@@ -64,7 +64,7 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
     break;
     case 12:
     std::string ipName = this->ReverseIP(qName);
-    domainName = this->findIP(ipName);
+    /*domainName = this->findIP(ipName);*/
     break ;
 
   }

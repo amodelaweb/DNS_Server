@@ -1,8 +1,15 @@
-# MIs compañeros son geniales
+# MIs compaï¿½eros son geniales
 # xdxdxd
-127.0.0.1 	localhost  #Localhost
-128.0.0.1	www.facebook.com
-132.167.1.0 	xd.com
+
+
+127.0.0.1     	localhost    #Localhost
+  128.0.0.1	www.facebook.com
+132.167.1.0   	xd.com
+    132.167.1.0     	xd.com
+
+
+
+
 #temrnaa
 #
 #
