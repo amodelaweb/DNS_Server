@@ -30,6 +30,7 @@ namespace DNS{
 
     struct sockaddr_in s_address;
     int s_sockfd;
+    DNS_Query s_query;
 
   };
 }

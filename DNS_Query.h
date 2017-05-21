@@ -47,6 +47,7 @@ class DNS_Query{
 
 
   private:
+
     std::string queryName;
     unsigned int queryType;
     unsigned int queryClass;
@@ -77,6 +78,7 @@ class DNS_Query{
     void putRdLength(const unsigned int value) throw() { this->principalrdLength = value; }
     void putRData(const std::string& value) throw() { this->principalrData = value; }
 
+    unsigned int obtainQueryType(){ return queryType}
     unsigned int obtainID() const throw() { return headerid; }
     unsigned int obtainQdCount() const throw() { return headerQdCount; }
     unsigned int obtainAnCount() const throw() { return headerAnCount; }
