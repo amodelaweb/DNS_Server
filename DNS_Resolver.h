@@ -19,10 +19,10 @@ class DNS_Resolver{
     void process(DNS_Query& query) throw ();
     std::string find(std::string domain, unsigned int type);
     std::string ReverseIP(const std::string& ip) throw();
-    std::string findIP(ipName);
+    std::string findIP(std::string ipName);
 
   private:
-    std::map<std::string, std::string> masterFile;
+    std::map<std::string, std::string> Records;
   };
 }
 #include "DNS_Resolver.hxx"

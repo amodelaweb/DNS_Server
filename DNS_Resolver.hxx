@@ -6,7 +6,7 @@
 /*=============================================================================================================================*/
 void DNS::DNS_Resolver::init(const std::string& filename){
   MasterFile file= MasterFile();
-  this->masterFile= file.leerArchivo(filename);
+  this->Records= file.ReadFile(filename);
 }
 /*=============================================================================================================================*/
 std::string DNS::DNS_Resolver::find(std::string domain, unsigned int type){
@@ -26,9 +26,9 @@ std::string DNS::DNS_Resolver::find(std::string domain, unsigned int type){
   if(x){
     domain= "www."+domain;
   }
-  std::multimap<std::string, std::string>::iterator it=this->masterFile.find(domain);
+  std::multimap<std::string, std::string>::iterator it=this->Records.find(domain);
   std::pair<std::multimap<std::string,std::string>::iterator,std::multimap<std::string,std::string>::iterator> ret;
-  ret= this->masterFile.equal_range(it->first);
+  ret= this->Records.equal_range(it->first);
   bool yes = false ;
   int type1 = -1 ;
   std::string buffaux ;
@@ -116,8 +116,19 @@ std::string DNS::DNS_Resolver::ReverseIP(const std::string& ip) throw() {
   return ipAddress;
 }
 /*=============================================================================================================================*/
-std::string DNS::DNS_Resolver::findIP(ipName){
-
+std::string DNS::DNS_Resolver::findIP(std::string ipName){
+  std::multimap<std::string , std::string > temp ;
+  std::multimap<std::string , std::string >::iterator it ;
+  std::string stemp ;
+  for(it = this->Records.begin() ; it != this->Records.end() ; it++){
+    temp.insert(std::pair<std::string , std::string> (it->second , it->first)) ;
+  }
+  it = temp.find(ipName);
+  if (it != this->Records.end()){
+    return it->second ;
+  }else{
+    return "error";
+  }
 }
 /*=============================================================================================================================*/
 #endif

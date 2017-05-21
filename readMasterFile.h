@@ -1,5 +1,5 @@
-#ifndef __MASTERFILE__HXX__
-#define __MASTERFILE__HXX__
+#ifndef __MASTERFILE__H__
+#define __MASTERFILE__H__
 
 #include <fstream>
 #include <map>
@@ -13,8 +13,8 @@ namespace DNS{
 
   public:
     MasterFile()= default;
-    std::map<std::string, std::string> leerArchivo(std::string file);
-    std::vector<std::string> quitarCaracteres(std::string line);
+    std::map<std::string, std::string> ReadFile(std::string file);
+    std::vector<std::string> EraseCharacters(std::string line);
   };
 }
 #include "readMasterFile.hxx"

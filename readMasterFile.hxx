@@ -4,7 +4,7 @@
 #include "readMasterFile.h"
 
 /*=============================================================================================================================*/
-std::map<std::string, std::string> DNS::MasterFile::leerArchivo(std::string file){
+std::map<std::string, std::string> DNS::MasterFile::ReadFile(std::string file){
   std::ifstream myfile(file);
   std::map<std::string, std::string> r;
   if(myfile.is_open()==true){
@@ -27,7 +27,7 @@ std::map<std::string, std::string> DNS::MasterFile::leerArchivo(std::string file
       if(pasar){
         continue;
       }else{
-        std::vector<std::string> data=quitarCaracteres(line);
+        std::vector<std::string> data=EraseCharacters(line);
         for(int i=0;i<data.size();i++){
           if(data[i+1][data[i+1].size()-1] == 13){
             data[i+1].erase(data[i+1].size() - 1, data[i+1].size());
@@ -44,7 +44,7 @@ std::map<std::string, std::string> DNS::MasterFile::leerArchivo(std::string file
   return r;
 }
 /*=============================================================================================================================*/
-std::vector<std::string> DNS::MasterFile::quitarCaracteres(std::string line){
+std::vector<std::string> DNS::MasterFile::EraseCharacters(std::string line){
   std::vector<std::string> v;
   std::string s="";
   for(int i=0;i<line.size();i++){
