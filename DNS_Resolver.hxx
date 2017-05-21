@@ -3,11 +3,12 @@
 
 #include "DNS_Resolver.h"
 
+/*=============================================================================================================================*/
 void DNS::DNS_Resolver::init(const std::string& filename){
   MasterFile file= MasterFile();
   this->masterFile= file.leerArchivo(filename);
 }
-
+/*=============================================================================================================================*/
 std::string DNS::DNS_Resolver::find(std::string domain, unsigned int type){
   bool x=true;
   for(int i=0;i<4;i++){
@@ -50,7 +51,7 @@ std::string DNS::DNS_Resolver::find(std::string domain, unsigned int type){
   }
   return "error";
 }
-
+/*=============================================================================================================================*/
 void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   std::string qName = query.getQName();
   std::string ipAddress = "";
@@ -62,13 +63,14 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
     ipAddress = this->find(qName , 1);
     break;
     case 12:
-    domainName = this->findIP(qName);
+    std::string ipName = this->ReverseIP(qName);
+    domainName = this->findIP(ipName);
     break ;
     default:
     break;
   }
 
-  query.setID();
+  query.putAll();
   query.putQdCount(1);
   query.putAnCount(1);
   if(type == 1){
@@ -91,32 +93,28 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
     }
     query.putRCode(query::Ok);
 
-
   }
 
-  //convert(qName);
-  /*std::string domainName = this->masterFile.find(ipAddress)->second;
-
-  query.putQdCount(1);
-  query.putAnCount(1);
-  query.putRData(domainName);
-
-  std::cout << std::endl << "Query for: " << ipAddress;
-  std::cout << std::endl << "query with: ";
-
-  if (domainName.empty()) {
-  std::cout << "NameError" << std::endl;
-  query.headerRCode(DNS_Query::Code::NameError);
-  query.putRdLength(1); // null label
 }
-else {
-std::cout << domainName << std::endl;
-query.headerRCode(DNS_Query::Code::Ok);
-query.putRdLength(domainName.size()+2); // + initial label length & null label
-}
-query.setRCode(DNS_Query::Code::Ok);
-query.setRdLength(domainName.size()+2); // + initial label length & null label
-}*/
+/*=============================================================================================================================*/
+std::string Resolver::ReverseIP(const std::string& ip) throw() {
+
+  int pos_n = ip.find(".in-addr.arpa");
+  if (pos_n == std::string::npos){
+    return string();
+  }
+
+  string tmp(ip, 0, pos);
+  string ipAddress;
+  while ((pos = tmp.rfind('.')) != std::string::npos) {
+
+    ipAddress.append(tmp, pos+1, tmp.size());
+    ipAddress.append(".");
+    tmp.erase(pos, tmp.size());
+  }
+  ipAddress.append(tmp, 0, tmp.size());
+
+  return ipAddress;
 }
 
 #endif

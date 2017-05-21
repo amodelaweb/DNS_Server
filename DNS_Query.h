@@ -54,12 +54,13 @@ class DNS_Query{
     void decodeQueryName(const char*& buffer) throw();
 
     std::string principalName;
+    unsigned int principalID ;
     unsigned int principalType;
     unsigned int principalClass;
     unsigned long principalTtl;
     unsigned int principalrdLength;
     std::string principalrData;
-    void codedomain(char*& buffer, const std::string& domain) throw();
+    void encodeResponse(char*& buffer, const std::string& response) throw();
 
     unsigned int headerid;
     unsigned int headerQr;
@@ -85,6 +86,7 @@ class DNS_Query{
     unsigned int obtainNsCount() const throw() { return headerNsCount; }
     unsigned int obtainArCount() const throw() { return headerArCount; }
 
+    void putAll();
     void putID(unsigned int id) throw() { headerid = id; }
     void putQdCount(unsigned int count) throw() { this->headerQdCount = count; }
     void putAnCount(unsigned int count) throw() { this->headerAnCount = count; }

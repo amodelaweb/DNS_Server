@@ -55,31 +55,31 @@ void DNS::DNS_Query::decodeheader(const char* buffer) throw () {
 /*=============================================================================================================================*/
 int DNS::DNS_Query::resposeCode(char* buffer) throw() {
 
-    char* bufferBegin = buffer;
+    char* begin = buffer;
 
     this->codeheader(buffer);
     buffer += HDR_OFFSET;
 
-    this->codedomain(buffer, principalName);
+    this->encodeResponse(buffer, principalName);
     this->putin16bit(buffer, principalType);
     this->putin16bit(buffer, principalClass);
 
-    this->codedomain(buffer, principalName);
+    this->encodeResponse(buffer, principalName);
     this->putin16bit(buffer, principalType);
     this->putin16bit(buffer, principalClass);
     this->putin32bit(buffer, principalTtl);
     this->putin16bit(buffer, principalrdLength);
-    this->codedomain(buffer, principalrData);
-    this->codedomain(buffer, principalName);
+    this->encodeResponse(buffer, principalrData);
+    this->encodeResponse(buffer, principalName);
     this->putin16bit(buffer, principalType);
     this->putin16bit(buffer, principalClass);
 
-    this->codedomain(buffer, principalName);
+    this->encodeResponse(buffer, principalName);
     this->putin16bit(buffer, principalType);
     this->putin16bit(buffer, principalClass);
     this->putin32bit(buffer, principalTtl);
     this->putin16bit(buffer, principalrdLength);
-    this->codedomain(buffer, principalrData);
+    this->encodeResponse(buffer, principalrData);
 
     int size = buffer - bufferBegin;
 
@@ -88,18 +88,18 @@ int DNS::DNS_Query::resposeCode(char* buffer) throw() {
 /*=============================================================================================================================*/
 void DNS::DNS_Query::codeheader(char* buffer) throw () {
 
-    this->putin16bit(buffer, headerid);
+    this->putin16bit(buffer, this->headerid);
 
-    int fields = (headerQr << 15);
-    fields += (headerOpCode << 14);
+    int fields = (this->headerQr << 15);
+    fields += (this->headerOpCode << 14);
 
-    fields += headerRcode;
+    fields += this->headerRcode;
     this->putin16bit(buffer, fields);
 
-    this->putin16bit(buffer, headerQdCount);
-    this->putin16bit(buffer, headerAnCount);
-    this->putin16bit(buffer, headerNsCount);
-    this->putin16bit(buffer, headerArCount);
+    this->putin16bit(buffer, this->headerQdCount);
+    this->putin16bit(buffer, this->headerAnCount);
+    this->putin16bit(buffer, this->headerNsCount);
+    this->putin16bit(buffer, this->headerArCount);
 }
 
 /*=============================================================================================================================*/
@@ -110,24 +110,24 @@ void DNS::DNS_Query::putin16bit(char*& buffer, unsigned int value) throw () {
     buffer += 2;
 }
 /*=============================================================================================================================*/
-void DNS::DNS_Query::codedomain(char*& buffer, const std::string& domain) throw() {
+void DNS::DNS_Query::encodeResponse(char*& buffer, const std::string& response) throw() {
 
     int start(0), end;
 
-    while ((end = domain.find('.', start)) != std::string::npos) {
+    while ((end = response.find('.', start)) != std::string::npos) {
 
         *buffer++ = end - start;
         for (int i=start; i<end; i++) {
 
-            *buffer++ = domain[i];
+            *buffer++ = response[i];
         }
         start = end + 1;
     }
 
-    *buffer++ = domain.size() - start;
-    for (int i=start; i<domain.size(); i++) {
+    *buffer++ = response.size() - start;
+    for (int i=start; i<response.size(); i++) {
 
-        *buffer++ = domain[i];
+        *buffer++ = response[i];
     }
 
     *buffer++ = 0;
@@ -142,4 +142,10 @@ void DNS::DNS_Query::putin32bit(char*& buffer, unsigned long value) throw () {
     buffer += 4;
 }
 /*=============================================================================================================================*/
+void DNS::DNS_Query::putAll(){
+  this->principalID = this->headerid ;
+  this->principalName = this->queryName ;
+  this->principalType = this->queryType ;
+  this->principalClass = this->queryClass ;
+}
 #endif

@@ -16,6 +16,7 @@ class DNS_Resolver{
     void init(const std::string& filename);
     void process(DNS_Query& query) throw ();
     std::string find(std::string domain, unsigned int type);
+    std::string Resolver::ReverseIP(const std::string& ip) throw()
 
   private:
     std::map<std::string, std::string> masterFile;
