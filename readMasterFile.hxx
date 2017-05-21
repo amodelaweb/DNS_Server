@@ -1,7 +1,10 @@
-#ifndef __readMasterFile__HXX__
-#define __readMasterFile__HXX__
+#ifndef __MASTERFILE__HXX__
+#define __MASTERFILE__HXX__
+
 #include "readMasterFile.h"
-std::map<std::string, std::string> MasterFile::leerArchivo(std::string file){
+
+/*=============================================================================================================================*/
+std::map<std::string, std::string> DNS::MasterFile::leerArchivo(std::string file){
   std::ifstream myfile(file);
   std::map<std::string, std::string> r;
   if(myfile.is_open()==true){
@@ -40,7 +43,8 @@ std::map<std::string, std::string> MasterFile::leerArchivo(std::string file){
   }
   return r;
 }
-std::vector<std::string> MasterFile::quitarCaracteres(std::string line){
+/*=============================================================================================================================*/
+std::vector<std::string> DNS::MasterFile::quitarCaracteres(std::string line){
   std::vector<std::string> v;
   std::string s="";
   for(int i=0;i<line.size();i++){
@@ -62,5 +66,5 @@ std::vector<std::string> MasterFile::quitarCaracteres(std::string line){
   }
   return v;
 }
-
+/*=============================================================================================================================*/
 #endif
