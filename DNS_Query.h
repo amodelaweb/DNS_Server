@@ -30,7 +30,6 @@ class DNS_Query{
     DNS_Query(){}
     enum Code { Ok=0, FormatError, ServerFailure, NameError,
                 NotImplemented, Refused };
-
     void decodeQ(const char* buffer, int size) throw();
     void decodeheader(const char* buffer) throw ();
 
@@ -84,11 +83,11 @@ class DNS_Query{
 
     unsigned int headerid;
     unsigned int headerQr;
-    unsigned int headerOpCode;
-    unsigned int headerAa;
-    unsigned int headerTc;
+    unsigned int headerOpCode : 4;
+    unsigned int headerAa : 1;
+    unsigned int headerTc : 1;
     unsigned int headerRd;
-    unsigned int headerRa;
+    unsigned int headerRa : 1;
     unsigned int headerRcode;
 
     const char* buffertemp ;
