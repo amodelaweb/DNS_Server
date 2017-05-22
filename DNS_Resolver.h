@@ -22,6 +22,7 @@ class DNS_Resolver{
     std::string find(std::string domain, unsigned int type);
     std::string ReverseIP(const std::string& ip) throw();
     std::string findIP(std::string ipName);
+    std::string redirect(std::string host);
 
   private:
     std::multimap<std::string, std::string> Records;

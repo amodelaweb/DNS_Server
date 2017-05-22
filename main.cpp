@@ -39,7 +39,7 @@ int main()
         inet_ntop(res->ai_family, addr, ipstr, sizeof ipstr);
     }
     printf("Address: %s\n", ipstr);
-
+    
     freeaddrinfo(result);
     return 0;
 }
