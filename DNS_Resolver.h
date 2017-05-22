@@ -31,9 +31,10 @@ class DNS_Resolver{
     void process(DNS_Query& query) throw ();
     std::vector<std::string> find(std::string domain, unsigned int type);
     std::string ReverseIP(const std::string& ip) throw();
+
     std::vector<std::string> findIP(std::string ipName);
-    std::string redirect(std::string host);
-    std::string redirect2(std::string ipadrr);
+    std::vector<std::string> redirect(std::string host);
+    std::vector<std::string> redirect2(std::string ipadrr);
 
   private:
     std::multimap<std::string, std::string> Records;
