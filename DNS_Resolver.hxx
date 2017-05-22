@@ -153,9 +153,9 @@ std::string DNS::DNS_Resolver::redirect(std::string host){
   error = getaddrinfo(host, NULL, NULL, &result);
   if (error != 0) {
       if (error == EAI_SYSTEM) {
-          return perror("getaddrinfo");
+          return "Error";
       } else {
-          return fprintf(stderr, "error in getaddrinfo: %s\n", gai_strerror(error));
+          return "Error";
       }
   }
   for (res = result; res != NULL; res = res->ai_next) {
