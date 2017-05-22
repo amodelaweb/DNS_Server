@@ -86,9 +86,21 @@ void DNS::DNS_Query::codeheader(char* buffer) throw () {
 
   this->putin16bit(buffer, this->headerid);
 
-  int fields = ((1) << 15);
+  unsigned int fields = ((1) << 15);
   fields += (this->headerOpCode << 14);
-
+  fields += (this->headerAa << 13);
+  fields += (this->headerTc <<12);
+  fields += (this->headerRd <<11);
+  fields += (this->headerRa <<10);
+  fields += ( 0 <<10);
+  fields += ( 0 << 9);
+  fields += ( 0 <<8);
+  fields += ( 0 <<7);
+  fields += ( 0 <<6);
+  fields += ( 0 <<5);
+  fields += ( 0 <<4);
+  fields += ( 0 <<3);
+  fields += ( 0 <<2);
   fields += this->headerRcode;
   this->putin16bit(buffer, fields);
 
@@ -101,8 +113,8 @@ void DNS::DNS_Query::codeheader(char* buffer) throw () {
 /*=============================================================================================================================*/
 void DNS::DNS_Query::putin16bit(char*& buffer, unsigned int value) throw () {
 
-  buffer[0] = (value & MASK16) >> 8;
-  buffer[1] = value & MASK16_1;
+  buffer[0] = (unsigned char)(value>>8);
+  buffer[1] = value & 0xff;
   buffer += 2;
 }
 /*=============================================================================================================================*/
@@ -130,7 +142,7 @@ void DNS::DNS_Query::encodeResponse(char*& buffer, const std::string& response) 
 }
 /*=============================================================================================================================*/
 void DNS::DNS_Query::putin32bit(char*& buffer, unsigned long value) throw () {
-  printf("---22 > %ld\n",  value );
+
   buffer[0] = (value & 0xff000000UL) >> 24;
   buffer[1] =(value & 0x00ff0000UL) >> 16;
   buffer[2] =  (value & 0x0000ff00UL) >>  8;
