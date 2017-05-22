@@ -61,6 +61,9 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   if(type == 1){
 
     ipAddress = this->find(qName , 1);
+    if(ipAddress=="error"){
+      ipAddress= redirect(qName);
+    }
   }
 
   if(type == 12) {
@@ -153,9 +156,9 @@ std::string DNS::DNS_Resolver::redirect(std::string host){
   error = getaddrinfo(host, NULL, NULL, &result);
   if (error != 0) {
       if (error == EAI_SYSTEM) {
-          return "Error";
+          return "error";
       } else {
-          return "Error";
+          return "error";
       }
   }
   for (res = result; res != NULL; res = res->ai_next) {
