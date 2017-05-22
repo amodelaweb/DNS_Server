@@ -91,10 +91,11 @@ class DNS_Query{
     unsigned int headerRa;
     unsigned int headerRcode;
 
+    const char* buffertemp ;
     unsigned int headerQdCount;
-    unsigned int headerAnCount;
-    unsigned int headerNsCount;
-    unsigned int headerArCount;
+    unsigned int headerAnCount = 1 ;
+    unsigned int headerNsCount = 0 ;
+    unsigned int headerArCount = 0;
 
 
   };

@@ -81,8 +81,6 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
     query.putRdLength(1);
   }
   else{
-    printf("\n Domain Name : %s \n",domainName.c_str() );
-    printf("\n Domain Name : %s \n",domainName.c_str() );
     if(type == 1){
       struct sockaddr_in sa;
       std::string inreverse = ipAddress ;
@@ -90,7 +88,6 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
       inet_pton(AF_INET, inreverse.c_str(), &(sa.sin_addr));
       char str[INET_ADDRSTRLEN];
       inet_ntop(AF_INET, &(sa.sin_addr), str, INET_ADDRSTRLEN);
-      printf("--- > %u\n",  sa.sin_addr.s_addr);
       query.putPrincipalDataA(  sa.sin_addr.s_addr);
 
     }else if(type == 12){
