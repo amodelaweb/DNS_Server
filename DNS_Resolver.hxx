@@ -175,4 +175,26 @@ std::string DNS::DNS_Resolver::redirect(std::string host){
   return ipstr;
 }
 
+std::string DNS::DNS_Resolver::redirect2(std::string ipadrr){
+  struct addrinfo* result;
+  struct addrinfo* res;
+  int error;
+  /* resolve the domain name into a list of addresses */
+  error = getaddrinfo(ipadrr.c_str(), NULL, NULL, &result);
+  if (error != 0) {
+      if (error == EAI_SYSTEM) {
+          return "error";
+      } else {
+          return "error";
+      }
+  }
+  char hostname[1014];
+  /* loop over all returned results and do inverse lookup */
+  for (res = result; res != NULL; res = res->ai_next) {
+      error = getnameinfo(res->ai_addr, res->ai_addrlen, hostname, NI_MAXHOST, NULL, 0, 0);
+  }
+  freeaddrinfo(result);
+  return hostname;
+}
+
 #endif
