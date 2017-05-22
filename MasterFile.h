@@ -18,5 +18,5 @@ namespace DNS{
     std::multimap<std::string, std::string> getRecords();
   };
 }
-#include "readMasterFile.hxx"
+#include "MasterFile.hxx"
 #endif
