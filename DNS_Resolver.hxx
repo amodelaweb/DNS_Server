@@ -189,13 +189,22 @@ std::string DNS::DNS_Resolver::redirect2(std::string ipadrr){
           return "error";
       }
   }
-  char hostname[1014];
 
+  char hostname[1014];
+  std::string host;
   for (res = result; res != NULL; res = res->ai_next) {
-      error = getnameinfo(res->ai_addr, res->ai_addrlen, hostname, NI_MAXHOST, NULL, 0, 0);
+      char hostname[1025];
+      error = getnameinfo(res->ai_addr, res->ai_addrlen, hostname, 1025, NULL, 0, 0);
+      if (error != 0) {
+          //host =(stderr, "error in getnameinfo: %s\n", gai_strerror(error));
+          continue;
+      }
+      if (*hostname != '\0')
+          //printf("hostname: %s\n", hostname);
+          host= hostname;
   }
   freeaddrinfo(result);
-  return hostname;
+  return host;
 }
 /*=============================================================================================================================*/
 #endif

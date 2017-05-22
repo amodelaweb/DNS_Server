@@ -1,22 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <errno.h>
-#include <string.h>
 #include <netdb.h>
-#include <sys/types.h>
-#include <sys/socket.h>
 #include <netinet/in.h>
-#include <arpa/inet.h>
+#include <sys/socket.h>
 
-int main()
+#ifndef   NI_MAXHOST
+#define   NI_MAXHOST 1025
+#endif
+
+int main(void)
 {
     struct addrinfo* result;
     struct addrinfo* res;
-    char ipstr[INET_ADDRSTRLEN];
     int error;
 
-    error = getaddrinfo("www.facebook.com", NULL, NULL, &result);
+    /* resolve the domain name into a list of addresses */
+    error = getaddrinfo("216.239.32.10", NULL, NULL, &result);
     if (error != 0) {
         if (error == EAI_SYSTEM) {
             perror("getaddrinfo");
@@ -26,20 +25,18 @@ int main()
         exit(EXIT_FAILURE);
     }
 
+    /* loop over all returned results and do inverse lookup */
     for (res = result; res != NULL; res = res->ai_next) {
-        struct in_addr  *addr;
-        if (res->ai_family == AF_INET) {
-            struct sockaddr_in *ipv = (struct sockaddr_in *)res->ai_addr;
-            addr = &(ipv->sin_addr);
+        char hostname[NI_MAXHOST];
+        error = getnameinfo(res->ai_addr, res->ai_addrlen, hostname, NI_MAXHOST, NULL, 0, 0);
+        if (error != 0) {
+            fprintf(stderr, "error in getnameinfo: %s\n", gai_strerror(error));
+            continue;
         }
-        else {
-            struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)res->ai_addr;
-            addr = (struct in_addr *) &(ipv6->sin6_addr);
-        }
-        inet_ntop(res->ai_family, addr, ipstr, sizeof ipstr);
+        if (*hostname != '\0')
+            printf("hostname: %s\n", hostname);
     }
-    printf("Address: %s\n", ipstr);
-    
+
     freeaddrinfo(result);
     return 0;
 }
