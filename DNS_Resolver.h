@@ -4,6 +4,16 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 #include "MasterFile.h"
 #include "DNS_Query.h"
