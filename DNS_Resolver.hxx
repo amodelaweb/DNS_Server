@@ -144,4 +144,34 @@ std::string DNS::DNS_Resolver::findIP(std::string ipName){
   }
 }
 /*=============================================================================================================================*/
+std::string DNS::DNS_Resolver::redirect(std::string host){
+  struct addrinfo* result;
+  struct addrinfo* res;
+  char ipstr[INET_ADDRSTRLEN];
+  int error;
+
+  error = getaddrinfo(host, NULL, NULL, &result);
+  if (error != 0) {
+      if (error == EAI_SYSTEM) {
+          return perror("getaddrinfo");
+      } else {
+          return fprintf(stderr, "error in getaddrinfo: %s\n", gai_strerror(error));
+      }
+  }
+  for (res = result; res != NULL; res = res->ai_next) {
+      struct in_addr  *addr;
+      if (res->ai_family == AF_INET) {
+          struct sockaddr_in *ipv = (struct sockaddr_in *)res->ai_addr;
+          addr = &(ipv->sin_addr);
+      }
+      else {
+          struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)res->ai_addr;
+          addr = (struct in_addr *) &(ipv6->sin6_addr);
+      }
+      inet_ntop(res->ai_family, addr, ipstr, sizeof ipstr);
+  }
+  freeaddrinfo(result);
+  return ipstr;
+}
+
 #endif
