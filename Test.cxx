@@ -6,7 +6,7 @@ int main(int argc, char const *argv[]) {
   std::string file_name = "masterfile.txt" ;
   try {
 
-    s.init(1025 , file_name);
+    s.init(53 , file_name);
     s.run();
   } catch (DNS::DNSException  & ex) {
     std::cout << ex.what();
