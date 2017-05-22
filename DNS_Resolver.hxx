@@ -16,7 +16,7 @@ bool DNS::DNS_Resolver::init( std::string& filename){
 /*=============================================================================================================================*/
 std::string DNS::DNS_Resolver::find(std::string domain, unsigned int type){
 
-  std::vector<std::string> temp ; 
+  std::vector<std::string> temp ;
   bool x=true;
   std::string temp1 = domain.substr(0,4);
   if(temp1 != "www."){
@@ -145,18 +145,21 @@ std::string DNS::DNS_Resolver::findIP(std::string ipName){
   }
 }
 /*=============================================================================================================================*/
-std::string DNS::DNS_Resolver::redirect(std::string host){
+std::std::vector<std::string> DNS::DNS_Resolver::redirect(std::string host){
   struct addrinfo* result;
   struct addrinfo* res;
+  std::std::vector<std::string> v;
   char ipstr[INET_ADDRSTRLEN];
   int error;
 
   error = getaddrinfo(host.c_str(), NULL, NULL, &result);
   if (error != 0) {
       if (error == EAI_SYSTEM) {
-          return "error";
+          v.push_back("error");
+          return v;
       } else {
-          return "error";
+        v.push_back("error");
+        return v;
       }
   }
   for (res = result; res != NULL; res = res->ai_next) {
@@ -169,23 +172,26 @@ std::string DNS::DNS_Resolver::redirect(std::string host){
           struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)res->ai_addr;
           addr = (struct in_addr *) &(ipv6->sin6_addr);
       }
-      inet_ntop(res->ai_family, addr, ipstr, sizeof ipstr);
+      v.push_back(inet_ntop(res->ai_family, addr, ipstr, sizeof ipstr));
   }
   freeaddrinfo(result);
-  return ipstr;
+  return v;
 }
 /*=============================================================================================================================*/
-std::string DNS::DNS_Resolver::redirect2(std::string ipadrr){
+std::std::vector<std::string> DNS::DNS_Resolver::redirect2(std::string ipadrr){
   struct addrinfo* result;
   struct addrinfo* res;
   int error;
+  std::std::vector<std::string> v;
 
   error = getaddrinfo(ipadrr.c_str(), NULL, NULL, &result);
   if (error != 0) {
       if (error == EAI_SYSTEM) {
-          return "error";
+        v.push_back("error");
+        return v;
       } else {
-          return "error";
+        v.push_back("error");
+        return v;
       }
   }
   char hostname[1014];
@@ -200,9 +206,10 @@ std::string DNS::DNS_Resolver::redirect2(std::string ipadrr){
       if (*hostname != '\0')
 
           host= hostname;
+          v.push_back(host);
   }
   freeaddrinfo(result);
-  return host;
+  return v;
 }
 /*=============================================================================================================================*/
 #endif
