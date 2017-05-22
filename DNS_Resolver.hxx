@@ -50,6 +50,7 @@ std::string DNS::DNS_Resolver::find(std::string domain, unsigned int type){
   }else{
     return "error";
   }
+  return "error";
 }
 /*=============================================================================================================================*/
 void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
@@ -150,7 +151,7 @@ std::string DNS::DNS_Resolver::redirect(std::string host){
   char ipstr[INET_ADDRSTRLEN];
   int error;
 
-  error = getaddrinfo(host, NULL, NULL, &result);
+  error = getaddrinfo(host.c_str(), NULL, NULL, &result);
   if (error != 0) {
       if (error == EAI_SYSTEM) {
           return "error";
