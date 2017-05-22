@@ -5,7 +5,7 @@
 #include <string>
 #include <algorithm>
 
-#include "readMasterFile.h"
+#include "MasterFile.h"
 #include "DNS_Query.h"
 
 namespace DNS{

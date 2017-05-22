@@ -1,7 +1,7 @@
 #ifndef __MASTERFILE__HXX__
 #define __MASTERFILE__HXX__
 
-#include "readMasterFile.h"
+#include "MasterFile.h"
 
 /*=============================================================================================================================*/
 bool DNS::MasterFile::ReadFile(std::string file){
