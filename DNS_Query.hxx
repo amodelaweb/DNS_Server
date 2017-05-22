@@ -106,8 +106,8 @@ void DNS::DNS_Query::codeheader(char* buffer) throw () {
 
   this->putin16bit(buffer, this->headerQdCount);
   this->putin16bit(buffer, this->headerAnCount);
-  this->putin16bit(buffer, this->headerNsCount);
-  this->putin16bit(buffer, this->headerArCount);
+  this->putin16bit(buffer, 0); //Ar
+  this->putin16bit(buffer, 0); //NS
 }
 
 /*=============================================================================================================================*/
