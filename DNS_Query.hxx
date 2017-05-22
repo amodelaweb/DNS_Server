@@ -71,7 +71,6 @@ int DNS::DNS_Query::resposeCode(char* buffer) throw() {
   this->putin32bit(buffer, principalTtl);
   this->putin16bit(buffer, principalrdLength);
   if(principalType == 1 ){
-
     this->putin32bit(buffer , this->principalrDataA);
   }
   if(principalType == 12){
@@ -133,8 +132,7 @@ void DNS::DNS_Query::encodeResponse(char*& buffer, const std::string& response) 
   }
 
   *buffer++ = response.size() - start;
-  for (int i=start; i<response.size(); i++) {
-
+  for (int i=start; i<response.size(); i++)
     *buffer++ = response[i];
   }
 

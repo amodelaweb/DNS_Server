@@ -2,6 +2,7 @@
 #define	_DNS_QUERY_H
 
 #include <string>
+#include <vector>
 
 #define QR_MASK 0x8000
 #define OPCODE_MASK 0x7800
@@ -46,8 +47,8 @@ class DNS_Query{
     void putAll();
 
     void putRCode(Code code) throw() { this->headerRcode = code; }
-    void putRdLength(const unsigned int value) throw() { this->principalrdLength = value; }
-    void putRData(const std::string& value) throw() { this->principalrData = value; }
+    void putRdLength(const unsigned int value) throw() { this->principalrdLength.push_back(value); }
+    void putRData(const std::string& value) throw() { this->principalrData.push_back(value); }
 
     unsigned int obtainQueryType(){ return queryType;}
     unsigned int obtainID() const throw() { return headerid; }
@@ -60,7 +61,7 @@ class DNS_Query{
     void putAnCount(unsigned int count) throw() { this->headerAnCount = count; }
     void putNsCount(unsigned int count) throw() { this->headerNsCount = count; }
     void putArCount(unsigned int count) throw() { this->headerArCount = count; }
-    void putPrincipalDataA(unsigned long data) throw() { this->principalrDataA = data ; }
+    void putPrincipalDataA(unsigned long data) throw() { this->principalrDataA.push_back(data) ; }
 
     void decodeQueryName(const char*& buffer) throw();
     void encodeResponse(char*& buffer, const std::string& response) throw();
@@ -77,10 +78,9 @@ class DNS_Query{
     unsigned int principalType;
     unsigned int principalClass;
     unsigned long principalTtl = (unsigned long) 150;
-    unsigned int principalrdLength;
-    std::string principalrData;
-    unsigned long principalrDataA  ;
-
+    std::vector<unsigned int> principalrdLength;
+    std::vector<std::string> principalrData ;
+    std::vector<unsigned long> principalrDataA ;
     unsigned int headerid;
     unsigned int headerQr;
     unsigned int headerOpCode : 4;

@@ -29,9 +29,9 @@ class DNS_Resolver{
   public:
     bool init( std::string& filename);
     void process(DNS_Query& query) throw ();
-    std::string find(std::string domain, unsigned int type);
+    std::vector<std::string> find(std::string domain, unsigned int type);
     std::string ReverseIP(const std::string& ip) throw();
-    std::string findIP(std::string ipName);
+    std::vector<std::string> findIP(std::string ipName);
     std::string redirect(std::string host);
     std::string redirect2(std::string ipadrr);
 

@@ -14,9 +14,9 @@ bool DNS::DNS_Resolver::init( std::string& filename){
   }
 }
 /*=============================================================================================================================*/
-std::string DNS::DNS_Resolver::find(std::string domain, unsigned int type){
+std::vector<std::string> DNS::DNS_Resolver::find(std::string domain, unsigned int type){
 
-  std::vector<std::string> temp ; 
+  std::vector<std::string> temp ;
   bool x=true;
   std::string temp1 = domain.substr(0,4);
   if(temp1 != "www."){
@@ -29,41 +29,40 @@ std::string DNS::DNS_Resolver::find(std::string domain, unsigned int type){
 
     bool yes = false ;
     int type1 = -1 ;
-    std::string buffaux ;
+
     for(std::multimap<std::string,std::string>::iterator it2=ret.first;it2!=ret.second && !yes;++it2){
       if(it2->second.size()>16&&type==14){
         type1 = 0 ;
-        buffaux = it2->second ;
+        temp.push_back(it2->second);
         yes = true ;
       }
       if(it2->second.size()<16&&type==1){
         type1 = 1 ;
-        yes = true ;
-        buffaux = it2->second ;
+        temp.push_back(it2->second);
       }
     }
 
     if(type1 == 0 ){
-      return buffaux ;
+      return temp ;
     }else if(type1 == 1){
-      return buffaux ;
+      return temp ;
     }
   }else{
-    return "error";
+    return temp;
   }
-  return "error";
+  return temp;
 }
 /*=============================================================================================================================*/
 void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   std::string qName = query.obtainQName();
-  std::string ipAddress = "";
-  std::string domainName = "";
+  std::vector<std::string> ipAddress ;
+  std::vector<std::string> domainName ;
   unsigned int type = query.obtainQType();
 
   if(type == 1){
 
     ipAddress = this->find(qName , 1);
-    if(ipAddress=="error"){
+    if(ipAddress.empty() ) {
       ipAddress= redirect(qName);
     }
   }
@@ -71,7 +70,7 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   if(type == 12) {
     std::string ipName = this->ReverseIP(qName);
     domainName = this->findIP(ipName);
-    if(domainName == "error"){
+    if(domainNam.empty()){
       domainName = redirect2(ipName);
     }
   }
@@ -80,7 +79,7 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   query.putQdCount(1);
   query.putAnCount(1);
 
-  if(ipAddress == "error" || domainName == "error"){
+  if(ipAddress.empty() && domainName.empty()){
     std::cout<<"\n Name error !! "<<qName<<" Not exist"<<std::endl;
     query.putRData("");
     query.putRCode(DNS_Query::NameError);
@@ -89,24 +88,32 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   else{
     if(type == 1){
       struct sockaddr_in sa;
-      std::string inreverse = ipAddress ;
-      inreverse = this->ReverseIP(ipAddress);
-      inet_pton(AF_INET, inreverse.c_str(), &(sa.sin_addr));
-      char str[INET_ADDRSTRLEN];
-      inet_ntop(AF_INET, &(sa.sin_addr), str, INET_ADDRSTRLEN);
-      query.putPrincipalDataA(  sa.sin_addr.s_addr);
+      std::string inreverse ;
+      for(int i = 0 ; i  < ipAddress.size() ; i++){
+        inreverse  = ipAddress[i];
+        inreverse = this->ReverseIP(ipAddress);
+        inet_pton(AF_INET, inreverse.c_str(), &(sa.sin_addr));
+        char str[INET_ADDRSTRLEN];
+        inet_ntop(AF_INET, &(sa.sin_addr), str, INET_ADDRSTRLEN);
+        query.putPrincipalDataA(  sa.sin_addr.s_addr);
+        query.putRdLength(4) ;
+      }
 
     }else if(type == 12){
-      query.putRData(domainName);
+      for(int i = 0 ; i  < domainName.size() ; i++){
+        query.putRData(domainName[i]);
+        query.putRdLength(domainName[i].size() + 2);
+      }
     }
     if(type == 1){
-      printf("\n * ) Ip Address : %s ",ipAddress.c_str() );
-      query.putRdLength(4) ;
+      for(int i = 0 ; i  < ipAddress.size() ; i++){
+        printf("\n %d ) Ip Address : %s ",(i+1),ipAddress[i].c_str() );
+      }
     }
     if(type == 12){
-      printf("\n * ) Domain Name : %s \n",domainName.c_str() );
-
-      query.putRdLength(domainName.size() + 2);
+      for(int i = 0 ; i  < domainName.size() ; i++){
+        printf("\n %d ) Domain Name : %s \n",(i+1),domainName[i].c_str() );
+      }
     }
     query.putRCode(DNS_Query::Ok);
 
@@ -129,19 +136,24 @@ std::string DNS::DNS_Resolver::ReverseIP(const std::string& ip) throw() {
   return ipAddress;
 }
 /*=============================================================================================================================*/
-std::string DNS::DNS_Resolver::findIP(std::string ipName){
+std::vector<std::string> DNS::DNS_Resolver::findIP(std::string ipName){
+  std::vector<std::string> temp1 ;
   std::multimap<std::string , std::string > temp ;
   std::multimap<std::string , std::string >::iterator it ;
   std::string stemp ;
+  std::pair<std::multimap<std::string,std::string>::iterator,std::multimap<std::string,std::string>::iterator> ret;
   for(it = this->Records.begin() ; it != this->Records.end() ; it++){
     temp.insert(std::pair<std::string , std::string> (it->second , it->first)) ;
   }
-  it = temp.find(ipName);
 
+  ret = temp.equal_range(ipName);
+  for(std::multimap<std::string,std::string>::iterator it2=ret.first;it2!=ret.second && !yes;++it2){
+    temp1.push_back(it2->second);
+  }
   if (it != temp.end()){
-    return it->second ;
+    return temp1 ;
   }else{
-    return "error";
+    return temp1;
   }
 }
 /*=============================================================================================================================*/
@@ -153,23 +165,23 @@ std::string DNS::DNS_Resolver::redirect(std::string host){
 
   error = getaddrinfo(host.c_str(), NULL, NULL, &result);
   if (error != 0) {
-      if (error == EAI_SYSTEM) {
-          return "error";
-      } else {
-          return "error";
-      }
+    if (error == EAI_SYSTEM) {
+      return "error";
+    } else {
+      return "error";
+    }
   }
   for (res = result; res != NULL; res = res->ai_next) {
-      struct in_addr  *addr;
-      if (res->ai_family == AF_INET) {
-          struct sockaddr_in *ipv = (struct sockaddr_in *)res->ai_addr;
-          addr = &(ipv->sin_addr);
-      }
-      else {
-          struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)res->ai_addr;
-          addr = (struct in_addr *) &(ipv6->sin6_addr);
-      }
-      inet_ntop(res->ai_family, addr, ipstr, sizeof ipstr);
+    struct in_addr  *addr;
+    if (res->ai_family == AF_INET) {
+      struct sockaddr_in *ipv = (struct sockaddr_in *)res->ai_addr;
+      addr = &(ipv->sin_addr);
+    }
+    else {
+      struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)res->ai_addr;
+      addr = (struct in_addr *) &(ipv6->sin6_addr);
+    }
+    inet_ntop(res->ai_family, addr, ipstr, sizeof ipstr);
   }
   freeaddrinfo(result);
   return ipstr;
@@ -182,24 +194,24 @@ std::string DNS::DNS_Resolver::redirect2(std::string ipadrr){
 
   error = getaddrinfo(ipadrr.c_str(), NULL, NULL, &result);
   if (error != 0) {
-      if (error == EAI_SYSTEM) {
-          return "error";
-      } else {
-          return "error";
-      }
+    if (error == EAI_SYSTEM) {
+      return "error";
+    } else {
+      return "error";
+    }
   }
   char hostname[1014];
   std::string host;
   for (res = result; res != NULL; res = res->ai_next) {
-      char hostname[1025];
-      error = getnameinfo(res->ai_addr, res->ai_addrlen, hostname, 1025, NULL, 0, 0);
-      if (error != 0) {
+    char hostname[1025];
+    error = getnameinfo(res->ai_addr, res->ai_addrlen, hostname, 1025, NULL, 0, 0);
+    if (error != 0) {
 
-          continue;
-      }
-      if (*hostname != '\0')
+      continue;
+    }
+    if (*hostname != '\0')
 
-          host= hostname;
+    host= hostname;
   }
   freeaddrinfo(result);
   return host;
