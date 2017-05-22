@@ -68,15 +68,16 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   }
 
   if(type == 12) {
-
     std::string ipName = this->ReverseIP(qName);
     domainName = this->findIP(ipName);
+    if(domainName == "error"){
+      domainName = redirect2(ipName);
+    }
   }
 
   query.putAll();
   query.putQdCount(1);
   query.putAnCount(1);
-
 
   if(ipAddress == "error" || domainName == "error"){
     std::cout<<"\n Name error !! "<<qName<<" Not exist"<<std::endl;
@@ -174,12 +175,12 @@ std::string DNS::DNS_Resolver::redirect(std::string host){
   freeaddrinfo(result);
   return ipstr;
 }
-
+/*=============================================================================================================================*/
 std::string DNS::DNS_Resolver::redirect2(std::string ipadrr){
   struct addrinfo* result;
   struct addrinfo* res;
   int error;
-  /* resolve the domain name into a list of addresses */
+
   error = getaddrinfo(ipadrr.c_str(), NULL, NULL, &result);
   if (error != 0) {
       if (error == EAI_SYSTEM) {
@@ -189,12 +190,12 @@ std::string DNS::DNS_Resolver::redirect2(std::string ipadrr){
       }
   }
   char hostname[1014];
-  /* loop over all returned results and do inverse lookup */
+
   for (res = result; res != NULL; res = res->ai_next) {
       error = getnameinfo(res->ai_addr, res->ai_addrlen, hostname, NI_MAXHOST, NULL, 0, 0);
   }
   freeaddrinfo(result);
   return hostname;
 }
-
+/*=============================================================================================================================*/
 #endif
