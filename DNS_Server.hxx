@@ -41,25 +41,24 @@ void DNS::Server::init(int port , std::string& filename) throw (DNSException) {
 }
 /*=============================================================================================================================*/
 void DNS::Server::run() throw(){
-  std::cout << "Server is waiting for connections....." <<std::endl;
+  std::cout << "\n Server is waiting for connections....." <<std::endl;
   struct sockaddr_in clientAddress;
   socklen_t addr_len = sizeof (struct sockaddr_in);
   struct sockaddr_storage addr;
   char ipstr[INET_ADDRSTRLEN];
   char buffer[BUFFER_SIZE];
 
-  printf("\nyo soy IP address %s\n",  inet_ntop(AF_INET, (void*)&this->s_address.sin_family ,ipstr, sizeof ipstr));
   while(true){
     int number_bytes =   0;
     number_bytes = recvfrom(this->s_sockfd , buffer , BUFFER_SIZE , 0 , (struct sockaddr*) &clientAddress , &addr_len);
 
     s_query.decodeQ(buffer , number_bytes);
 
-    printf("\nRecibidos %d bytes of data in buffer\n", number_bytes);
+    printf("\n Recieved %d bytes of data in buffer\n", number_bytes);
     printf("\nFrom IP address %s",  inet_ntop(AF_INET, (void*)&clientAddress.sin_addr ,ipstr, sizeof ipstr));
-    std::cout<<"\n Datos recibidos : -"<<s_query.obtainQName()<<"-";
+    std::cout<<"\n Recieved Data : -"<<s_query.obtainQName()<<"-";
 
-  
+
     this->resolver.process(s_query);
     memset(buffer, 0, BUFFER_SIZE);
     number_bytes = s_query.resposeCode(buffer);

@@ -16,6 +16,7 @@ bool DNS::DNS_Resolver::init( std::string& filename){
 /*=============================================================================================================================*/
 std::string DNS::DNS_Resolver::find(std::string domain, unsigned int type){
 
+  std::vector<std::string> temp ; 
   bool x=true;
   std::string temp1 = domain.substr(0,4);
   if(temp1 != "www."){
@@ -99,11 +100,11 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
       query.putRData(domainName);
     }
     if(type == 1){
-      printf("\n Ip Address : %s ",ipAddress.c_str() );
+      printf("\n * ) Ip Address : %s ",ipAddress.c_str() );
       query.putRdLength(4) ;
     }
     if(type == 12){
-      printf("\n Domain Name : %s \n",domainName.c_str() );
+      printf("\n * ) Domain Name : %s \n",domainName.c_str() );
 
       query.putRdLength(domainName.size() + 2);
     }
@@ -116,8 +117,6 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
 std::string DNS::DNS_Resolver::ReverseIP(const std::string& ip) throw() {
 
   int pos_n = ip.find(".in-addr.arpa");
-
-
   std::string tmp(ip, 0, pos_n);
   std::string ipAddress;
   while ((pos_n = tmp.rfind('.')) != std::string::npos) {
@@ -199,7 +198,7 @@ std::string DNS::DNS_Resolver::redirect2(std::string ipadrr){
           continue;
       }
       if (*hostname != '\0')
-        
+
           host= hostname;
   }
   freeaddrinfo(result);
