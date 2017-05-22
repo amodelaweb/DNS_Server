@@ -1,19 +1,17 @@
-# MIs compa�eros son geniales
-# xdxdxd
-
-
-127.0.0.1     	localhost    #Localhost
-
-10.138.103.163	www.facebook.com
-132.167.1.0   	xd.com
-
-    132.167.1.2     	xd.com
-    200.3.149.202 uvirtual.javeriana.edu.co
-
-
-
-132.167.1.3   	www.xd.com
-
-#temrnaa
+# Hellsoft S.A
+# MasterFile for networks
+# At the left is the the ip and in the right is the host
 #
-#
+
+127.0.0.1          localhost           #Localhost
+10.138.103.163	   www.facebook.com    #Facebook Host
+132.167.1.0   	   xd.com
+132.167.1.2        xd.com
+132.167.1.3   	   www.xd.com
+200.3.149.202      uvirtual.javeriana.edu.co
+
+
+# =====================================================================================
+#End of file
+# By : Santiago Chaustre , Carlos Baron , Andres Cocunubo
+# =====================================================================================
