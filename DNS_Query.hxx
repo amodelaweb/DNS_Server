@@ -65,20 +65,26 @@ int DNS::DNS_Query::resposeCode(char* buffer) throw() {
   this->putin16bit(buffer, principalType);
   this->putin16bit(buffer, principalClass);
 
-  this->encodeResponse(buffer, principalName);
-  this->putin16bit(buffer, principalType);
-  this->putin16bit(buffer, principalClass);
-  this->putin32bit(buffer, principalTtl);
 
 
   if(principalType == 1 ){
     for(int i = 0 ; i < this->principalrDataA.size() ; i++ ){
+
+      this->encodeResponse(buffer, principalName);
+      this->putin16bit(buffer, principalType);
+      this->putin16bit(buffer, principalClass);
+      this->putin32bit(buffer, principalTtl);
       this->putin16bit(buffer, this->principalrdLength[i]);
       this->putin32bit(buffer , this->principalrDataA[i]);
     }
   }
+
   if(principalType == 12){
     for(int i = 0 ; i < this->principalrData.size() ; i++){
+      this->encodeResponse(buffer, principalName);
+      this->putin16bit(buffer, principalType);
+      this->putin16bit(buffer, principalClass);
+      this->putin32bit(buffer, principalTtl);
       this->putin16bit(buffer, principalrdLength[i]);
       this->encodeResponse(buffer, principalrData[i]);
     }

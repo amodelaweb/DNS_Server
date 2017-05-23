@@ -51,21 +51,22 @@ void DNS::Server::run() throw(){
   while(true){
     int number_bytes =   0;
     number_bytes = recvfrom(this->s_sockfd , buffer , BUFFER_SIZE , 0 , (struct sockaddr*) &clientAddress , &addr_len);
-
-    s_query.decodeQ(buffer , number_bytes);
+    s_query = new DNS_Query();
+    s_query->decodeQ(buffer , number_bytes);
 
     printf("\n Recieved %d bytes of data in buffer\n", number_bytes);
     printf("\nFrom IP address %s",  inet_ntop(AF_INET, (void*)&clientAddress.sin_addr ,ipstr, sizeof ipstr));
-    std::cout<<"\n Recieved Data : -"<<s_query.obtainQName()<<"-";
+    std::cout<<"\n Recieved Data : -"<<s_query->obtainQName()<<"-";
 
 
-    this->resolver.process(s_query);
+    this->resolver.process(*s_query);
     memset(buffer, 0, BUFFER_SIZE);
-    number_bytes = s_query.resposeCode(buffer);
 
+    number_bytes = s_query->resposeCode(buffer);
     sendto(this->s_sockfd, buffer, number_bytes, 0, (struct sockaddr *) &clientAddress,
            addr_len);
-
+       memset(buffer, 0, BUFFER_SIZE);
+       delete s_query ;
   }
 }
 /*=============================================================================================================================*/

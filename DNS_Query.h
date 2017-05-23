@@ -29,6 +29,7 @@ class DNS_Query{
 
   public:
     DNS_Query(){}
+    ~DNS_Query() = default;
     enum Code { Ok=0, FormatError, ServerFailure, NameError,
                 NotImplemented, Refused };
     void decodeQ(const char* buffer, int size) throw();

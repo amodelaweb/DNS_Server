@@ -34,7 +34,6 @@ std::vector<std::string> DNS::DNS_Resolver::find(std::string domain, unsigned in
       if(it2->second.size()>16&&type==14){
         type1 = 0 ;
         temp.push_back(it2->second);
-        yes = true ;
       }
       if(it2->second.size()<16&&type==1){
         type1 = 1 ;
@@ -87,10 +86,15 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   }
   else{
     if(type == 1){
-        query.putAnCount(ipAddress.size());
+
       struct sockaddr_in sa;
       std::string inreverse ;
-      for(int i = 0 ; i  < ipAddress.size() ; i++){
+      int sizeimportant  = ipAddress.size()  ;
+      if(sizeimportant > 40){
+        sizeimportant = 40 ;
+      }
+      query.putAnCount(sizeimportant);
+      for(int i = 0 ; i  <sizeimportant  ; i++){
         inreverse  = ipAddress[i];
         inreverse = this->ReverseIP(ipAddress[i]);
         inet_pton(AF_INET, inreverse.c_str(), &(sa.sin_addr));
@@ -101,7 +105,11 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
       }
 
     }else if(type == 12){
-        query.putAnCount(domainName.size());
+      int sizedomain  =  domainName.size() ;
+      if(sizedomain > 30 ){
+        sizedomain = 30 ;
+      }
+        query.putAnCount(sizedomain);
       for(int i = 0 ; i  < domainName.size() ; i++){
         query.putRData(domainName[i]);
         query.putRdLength(domainName[i].size() + 2);
@@ -120,7 +128,8 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
     query.putRCode(DNS_Query::Ok);
 
   }
-
+  ipAddress.clear();
+  domainName.clear();
 }
 /*=============================================================================================================================*/
 std::string DNS::DNS_Resolver::ReverseIP(const std::string& ip) throw() {
