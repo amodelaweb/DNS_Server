@@ -72,6 +72,7 @@ void DNS::Server::run() throw(){
     int number_bytes =   0;
     number_bytes = recvfrom(this->s_sockfd , buffer , BUFFER_SIZE , 0 , (struct sockaddr*) &clientAddress , &addr_len);
     s_query = new DNS_Query();
+
     s_query->decodeQ(buffer , number_bytes);
     std::cout<<bold1<<underline1<<cyan1 ;
     printf("\n Recieved %d bytes of data in buffer\n", number_bytes);
@@ -87,7 +88,6 @@ void DNS::Server::run() throw(){
     number_bytes = s_query->resposeCode(buffer);
     sendto(this->s_sockfd, buffer, number_bytes, 0, (struct sockaddr *) &clientAddress,
            addr_len);
-       memset(buffer, 0, BUFFER_SIZE);
        delete s_query ;
   }
 }

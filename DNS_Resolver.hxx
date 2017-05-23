@@ -177,10 +177,8 @@ std::vector<std::string> DNS::DNS_Resolver::redirect(std::string host){
   error = getaddrinfo(host.c_str(), NULL, NULL, &result);
   if (error != 0) {
       if (error == EAI_SYSTEM) {
-        v.push_back("error");
         return v;
       } else {
-        v.push_back("error");
         return v;
       }
   }
@@ -214,10 +212,8 @@ std::vector<std::string> DNS::DNS_Resolver::redirect2(std::string ipadrr){
   if (error != 0) {
 
       if (error == EAI_SYSTEM) {
-        v.push_back("error");
         return v;
       } else {
-        v.push_back("error");
         return v;
       }
 
