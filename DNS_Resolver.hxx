@@ -63,6 +63,7 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
     ipAddress = this->find(qName , 1);
     if(ipAddress.empty() ) {
       ipAddress= redirect(qName);
+
     }
   }
 
@@ -77,7 +78,10 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   query.putAll();
   query.putQdCount(1);
 
-
+  std::cout<<"\n ---> "<<ipAddress.size();
+    std::cout<<"\n ---> "<<ipAddress.size();
+      std::cout<<"\n ---> "<<domainName.size();
+        std::cout<<"\n ---> "<<domainName.size();
   if(ipAddress.empty() && domainName.empty()){
     std::cout<<"\n Name error !! "<<qName<<" Not exist"<<std::endl;
     query.putRData("");
@@ -177,10 +181,8 @@ std::vector<std::string> DNS::DNS_Resolver::redirect(std::string host){
   error = getaddrinfo(host.c_str(), NULL, NULL, &result);
   if (error != 0) {
       if (error == EAI_SYSTEM) {
-        v.push_back("error");
         return v;
       } else {
-        v.push_back("error");
         return v;
       }
   }
@@ -214,10 +216,8 @@ std::vector<std::string> DNS::DNS_Resolver::redirect2(std::string ipadrr){
   if (error != 0) {
 
       if (error == EAI_SYSTEM) {
-        v.push_back("error");
         return v;
       } else {
-        v.push_back("error");
         return v;
       }
 
