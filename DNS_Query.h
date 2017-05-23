@@ -58,6 +58,7 @@ class DNS_Query{
     unsigned int obtainNsCount() const throw() { return headerNsCount; }
     unsigned int obtainArCount() const throw() { return headerArCount; }
 
+    void putQueryType(unsigned int queryType) throw () { this->queryType = queryType ; }
     void putQdCount(unsigned int count) throw() { this->headerQdCount = count; }
     void putAnCount(unsigned int count) throw() { this->headerAnCount = count; }
     void putNsCount(unsigned int count) throw() { this->headerNsCount = count; }

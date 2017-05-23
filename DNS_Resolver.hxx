@@ -58,6 +58,11 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   std::vector<std::string> domainName ;
   unsigned int type = query.obtainQType();
 
+  int pos_n = qName.find(".in-addr.arpa");
+  if (pos_n != std::string::npos ){
+    type = 12 ;
+    query.putQueryType(12);
+  }
   if(type == 1){
 
     ipAddress = this->find(qName , 1);
@@ -78,10 +83,7 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   query.putAll();
   query.putQdCount(1);
 
-  std::cout<<"\n ---> "<<ipAddress.size();
-    std::cout<<"\n ---> "<<ipAddress.size();
-      std::cout<<"\n ---> "<<domainName.size();
-        std::cout<<"\n ---> "<<domainName.size();
+
   if(ipAddress.empty() && domainName.empty()){
     std::cout<<"\n Name error !! "<<qName<<" Not exist"<<std::endl;
     query.putRData("");
@@ -120,18 +122,19 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
       }
     }
     if(type == 1){
-      for(int i = 0 ; i  < ipAddress.size() ; i++){
+      for(int i = 0 ; i  < sizeimportant ; i++){
         printf("\n %d ) Ip Address : %s ",(i+1),ipAddress[i].c_str() );
       }
     }
     if(type == 12){
-      for(int i = 0 ; i  < domainName.size() ; i++){
+      for(int i = 0 ; i  < sizeimportant ; i++){
         printf("\n %d ) Domain Name : %s \n",(i+1),domainName[i].c_str() );
       }
     }
     query.putRCode(DNS_Query::Ok);
 
   }
+
   ipAddress.clear();
   domainName.clear();
 }
