@@ -20,7 +20,6 @@ const std::string backgroundwhite("\x1B[47m");
 
 int main(int argc, char const *argv[]) {
   std::cout<<bold<<green;
-  std::cout<<backgroundblue;
   if(argc != 3){
     std::cerr << "Usage: "<<bold<<red<<"[Port]"<<bold<<cyan<<"[M_Filename] \n" ;
     std::cout<<reset;
@@ -38,5 +37,6 @@ int main(int argc, char const *argv[]) {
     std::cout << ex.what();
   }
 
+  std::cout<<reset ;
   return 0;
 }
