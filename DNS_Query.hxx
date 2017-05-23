@@ -80,6 +80,7 @@ int DNS::DNS_Query::resposeCode(char* buffer) throw() {
   }
 
   if(principalType == 12){
+      for(int i = 0 ; i < this->principalrdLength.size() ; i++ ){
       this->encodeResponse(buffer, principalName);
       this->putin16bit(buffer, principalType);
       this->putin16bit(buffer, principalClass);
@@ -87,7 +88,8 @@ int DNS::DNS_Query::resposeCode(char* buffer) throw() {
       this->putin16bit(buffer, principalrdLength[i]);
       this->encodeResponse(buffer, principalrData[i]);
     }
-  }
+    }
+
   int size = buffer - begin;
   principalrData.clear();
   principalrDataA.clear();

@@ -122,12 +122,20 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
       }
     }
     if(type == 1){
+      int sizeimportant  = ipAddress.size()  ;
+      if(sizeimportant > 40){
+        sizeimportant = 40 ;
+      }
       for(int i = 0 ; i  < sizeimportant ; i++){
         printf("\n %d ) Ip Address : %s ",(i+1),ipAddress[i].c_str() );
       }
     }
     if(type == 12){
-      for(int i = 0 ; i  < sizeimportant ; i++){
+      int sizedomain  =  domainName.size() ;
+      if(sizedomain > 30 ){
+        sizedomain = 30 ;
+      }
+      for(int i = 0 ; i  < sizedomain ; i++){
         printf("\n %d ) Domain Name : %s \n",(i+1),domainName[i].c_str() );
       }
     }
