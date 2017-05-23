@@ -69,12 +69,19 @@ int DNS::DNS_Query::resposeCode(char* buffer) throw() {
   this->putin16bit(buffer, principalType);
   this->putin16bit(buffer, principalClass);
   this->putin32bit(buffer, principalTtl);
-  this->putin16bit(buffer, principalrdLength);
+
+
   if(principalType == 1 ){
-    this->putin32bit(buffer , this->principalrDataA);
+    for(int i = 0 ; i < this->principalrDataA.size() ; i++ ){
+      this->putin16bit(buffer, this->principalrdLength[i]);
+      this->putin32bit(buffer , this->principalrDataA[i]);
+    }
   }
   if(principalType == 12){
-    this->encodeResponse(buffer, principalrData);
+    for(int i = 0 ; i < this->principalrData.size() ; i++){
+      this->putin16bit(buffer, principalrdLength[i]);
+      this->encodeResponse(buffer, principalrData[i]);
+    }
   }
   int size = buffer - begin;
 
@@ -132,9 +139,10 @@ void DNS::DNS_Query::encodeResponse(char*& buffer, const std::string& response) 
   }
 
   *buffer++ = response.size() - start;
-  for (int i=start; i<response.size(); i++)
+  for (int i=start; i<response.size(); i++){
     *buffer++ = response[i];
   }
+
 
   *buffer++ = 0;
 }

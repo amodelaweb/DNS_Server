@@ -70,14 +70,14 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   if(type == 12) {
     std::string ipName = this->ReverseIP(qName);
     domainName = this->findIP(ipName);
-    if(domainNam.empty()){
+    if(domainName.empty()){
       domainName = redirect2(ipName);
     }
   }
 
   query.putAll();
   query.putQdCount(1);
-  query.putAnCount(1);
+
 
   if(ipAddress.empty() && domainName.empty()){
     std::cout<<"\n Name error !! "<<qName<<" Not exist"<<std::endl;
@@ -87,11 +87,12 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
   }
   else{
     if(type == 1){
+        query.putAnCount(ipAddress.size());
       struct sockaddr_in sa;
       std::string inreverse ;
       for(int i = 0 ; i  < ipAddress.size() ; i++){
         inreverse  = ipAddress[i];
-        inreverse = this->ReverseIP(ipAddress);
+        inreverse = this->ReverseIP(ipAddress[i]);
         inet_pton(AF_INET, inreverse.c_str(), &(sa.sin_addr));
         char str[INET_ADDRSTRLEN];
         inet_ntop(AF_INET, &(sa.sin_addr), str, INET_ADDRSTRLEN);
@@ -100,6 +101,7 @@ void DNS::DNS_Resolver::process(DNS_Query& query) throw (){
       }
 
     }else if(type == 12){
+        query.putAnCount(domainName.size());
       for(int i = 0 ; i  < domainName.size() ; i++){
         query.putRData(domainName[i]);
         query.putRdLength(domainName[i].size() + 2);
@@ -147,7 +149,7 @@ std::vector<std::string> DNS::DNS_Resolver::findIP(std::string ipName){
   }
 
   ret = temp.equal_range(ipName);
-  for(std::multimap<std::string,std::string>::iterator it2=ret.first;it2!=ret.second && !yes;++it2){
+  for(std::multimap<std::string,std::string>::iterator it2=ret.first;it2!=ret.second;++it2){
     temp1.push_back(it2->second);
   }
   if (it != temp.end()){
