@@ -88,6 +88,8 @@ void DNS::Server::run() throw(){
     number_bytes = s_query->resposeCode(buffer);
     sendto(this->s_sockfd, buffer, number_bytes, 0, (struct sockaddr *) &clientAddress,
            addr_len);
+
+           memset(buffer, 0, BUFFER_SIZE);
        delete s_query ;
   }
 }
